@@ -1,0 +1,11 @@
+---
+- name: apply common configuration to all nodes
+  hosts: all
+  roles:
+    - common
+    - mariadb
+    - apache
+    #- mysql
+    - phpmyadmin
+    - ioncube
+    - shopware
