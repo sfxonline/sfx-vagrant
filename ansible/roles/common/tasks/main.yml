@@ -28,6 +28,7 @@
     - cowsay
     - tmux
     - avahi-daemon
+    - php5-sqlite
     #- openjdk-7-jdk
 
 - name: copy tmux config
