@@ -1,5 +1,22 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+module OS
+    def OS.windows?
+        (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+    end
+
+    def OS.mac?
+        (/darwin/ =~ RUBY_PLATFORM) != nil
+    end
+
+    def OS.unix?
+        !OS.windows?
+    end
+
+    def OS.linux?
+        OS.unix? and not OS.mac?
+    end
+end
 
 Vagrant.configure("2") do |config|
 
@@ -12,13 +29,7 @@ Vagrant.configure("2") do |config|
     config.vm.hostname = "shopware5.dev"
 
     config.vm.synced_folder "./ansible", "/ansible"
-    config.vm.synced_folder "../src", "/home/vagrant/www/shopware", create: true;
-
-# UNIX only Lösung da Ansible und Python auf dem Host benötigt werden (gibt es für Windows derzeit nicht)
-#    config.vm.provision "ansible" do |ansible|
-#        ansible.playbook = "ansible/playbook.yml"
-#        ansible.inventory_path = "ansible-inventory"
-#    end
+    config.vm.synced_folder "./src", "/home/vagrant/www/shopware", create: true;
 
     config.vm.provider "virtualbox" do |vb|
         vb.name = "shopware5.dev"
@@ -28,10 +39,19 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     end
 
-    config.vm.provision :shell do |sh|
-        sh.keep_color = true
-        sh.privileged = false
-        sh.path = "provision.sh"
-        sh.args = "./ansible-tmp /ansible/playbook.yml /vagrant/ansible-inventory"
+    if OS.windows?
+        config.vm.provision :shell do |sh|
+            sh.keep_color = true
+            sh.privileged = false
+            sh.path = "provision.sh"
+            sh.args = "./ansible-tmp /ansible/playbook.yml /vagrant/ansible-inventory"
+        end
+    elsif OS.mac?
+        puts "Vagrant launched from mac."
+    else
+        config.vm.provision "ansible" do |ansible|
+            ansible.playbook = "ansible/playbook.yml"
+            ansible.inventory_path = "ansible-inventory"
+        end
     end
 end
