@@ -42,6 +42,9 @@
     - "{{ shopware_install_path }}/cache"
     - "{{ shopware_install_path }}/logs"
 
+- name: Make make Shopware CLI command executable
+  file: path={{ shopware_install_path }}/bin/console mode="ug+x" state=touch
+
 - name: Create shopware db
   mysql_db: name=shopware state=present
   sudo: yes

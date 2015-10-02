@@ -16,7 +16,7 @@ The provision is done by [Ansible](http://www.ansibleworks.com/docs/) directly o
 
 Clone the repository to your local machine.
 
-    $ git clone https://github.com/sfxonline/shopware-vagrant
+    $ git clone https://github.com/sfxonline/vagrant-shopware
     $ cd shopware-vagrant
 
 Boot up your vagrant virtual machine:
