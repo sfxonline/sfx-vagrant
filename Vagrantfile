@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.network :private_network, ip: "33.33.33.10"
 
-    config.vm.hostname = "shopware.dev"
+    config.vm.hostname = "shopware5.dev"
 
     config.vm.synced_folder "./ansible", "/ansible"
     config.vm.synced_folder "../src", "/home/vagrant/www/shopware", create: true;
@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
 #    end
 
     config.vm.provider "virtualbox" do |vb|
-        vb.name = "shopware.dev"
+        vb.name = "shopware5.dev"
         vb.customize ["modifyvm", :id, "--cpus", 2]
         vb.customize ["modifyvm", :id, "--ioapic", "on"]
         vb.customize ["modifyvm", :id, "--memory", 1024]

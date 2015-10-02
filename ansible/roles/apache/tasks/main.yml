@@ -96,10 +96,10 @@
     - apache-restart
 
 - name: Configure PHP-CLI 
-  template: src={{ item }} dest=/etc/php5/cli/conf.d/{{ item }} owner=root group=root mode=0644
+  template: src={{ item.src }} dest=/etc/php5/cli/conf.d/{{ item.dest }} owner=root group=root mode=0644
   with_items:
-    - 05-opcache.ini
-    - 99-debug.ini
+    - { src: opcache.ini, dest: 05-opcache.ini }
+    - { src: debug.ini, dest: 99-debug.ini}
   sudo: yes
 
 - name: be sure apache is started and enabled

@@ -27,6 +27,7 @@
     - ant
     - cowsay
     - tmux
+    - avahi-daemon
     #- openjdk-7-jdk
 
 - name: copy tmux config
