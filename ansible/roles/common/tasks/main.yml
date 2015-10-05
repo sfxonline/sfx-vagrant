@@ -29,6 +29,7 @@
     - tmux
     - avahi-daemon
     - php5-sqlite
+    - php5-xdebug
     #- openjdk-7-jdk
 
 - name: copy tmux config
