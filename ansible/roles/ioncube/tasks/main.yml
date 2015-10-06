@@ -10,8 +10,8 @@
   sudo: yes
 
 - name: Extract IonCube Loaders
-  unarchive: 
-    src: "{{ ioncube_install_path }}/ioncube_loaders.tar.gz" 
+  unarchive:
+    src: "{{ ioncube_install_path }}/ioncube_loaders.tar.gz"
     dest: "{{ ioncube_install_path }}"
     copy: no
     creates: "{{ ioncube_install_path }}/ioncube/README.txt"
@@ -22,7 +22,7 @@
 #  sudo: yes
 
 - name: create php.ini entry
-  shell: echo "zend_extension={{ ioncube_install_path }}/ioncube/ioncube_loader_lin_5.5.so" > /etc/php5/mods-available/ioncube.ini
+  shell: echo "zend_extension={{ ioncube_install_path }}/ioncube/ioncube_loader_lin_5.6.so" > /etc/php5/mods-available/ioncube.ini
   args:
     creates: /etc/php5/mods-available/ioncube.ini
   sudo: yes

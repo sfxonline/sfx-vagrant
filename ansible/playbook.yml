@@ -4,8 +4,9 @@
   roles:
     - common
     - mariadb
-    - apache
     #- mysql
+    - apache
     - phpmyadmin
     - ioncube
-    - shopware
+    - shopware4
+    #- shopware5

@@ -3,5 +3,4 @@
 
 [vagrant:vars]
 shopware_app_host = "33.33.33.10"
-mysql_root_password = "shopware"
-
+mysql_root_password = "root"

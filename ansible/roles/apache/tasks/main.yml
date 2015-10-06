@@ -4,11 +4,12 @@
   sudo: yes
   with_items:
     - libapache2-mod-php5
-    - phpmyadmin
     - php5-cli
     - php5-curl
     - php5-gd
     - php5-mysql
+    - php5-sqlite
+    - php5-xdebug
 
 - name: Set /var/lock/apache2 owner
   file: path=/var/lock/apache2 recurse=yes state=directory group={{ apache_group }} owner={{ apache_user }}
@@ -28,7 +29,7 @@
   sudo: yes
 
 - name: Make sure apache_root exists
-  file: 
+  file:
     path={{ apache_root }}
     state=directory
     group={{ apache_group }}
@@ -48,8 +49,7 @@
     - autoindex
     - ssl
   sudo: yes
-  notify:
-  - apache-restart
+  notify: apache-restart
 
 - name: Delete default Apache vhost
   file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
@@ -60,8 +60,7 @@
   template:
     src=default_virtualhost.conf.j2
     dest=/etc/apache2/sites-available/default-vhost.conf
-  notify:
-    - apache-restart
+  notify: apache-restart
   sudo: yes
 
 - name: Create ssl directory
@@ -76,8 +75,7 @@
   with_items:
     - default-vhost
   sudo: yes
-  notify:
-  - apache-reload
+  notify: apache-reload
 
 - name: Configure PHP
   template: src={{ item }} dest=/etc/php5/mods-available/{{ item }} owner=root group=root mode=0644
@@ -92,10 +90,9 @@
     - { src: opcache.ini, dest: 05-opcache.ini }
     - { src: debug.ini, dest: 99-debug.ini}
   sudo: yes
-  notify:
-    - apache-restart
+  notify: apache-restart
 
-- name: Configure PHP-CLI 
+- name: Configure PHP-CLI
   template: src={{ item.src }} dest=/etc/php5/cli/conf.d/{{ item.dest }} owner=root group=root mode=0644
   with_items:
     - { src: opcache.ini, dest: 05-opcache.ini }
@@ -104,4 +101,8 @@
 
 - name: be sure apache is started and enabled
   service: name=apache2 state=started enabled=yes
+  sudo: yes
+
+- name: Setup Owner
+  file: path={{ apache_root }} owner=vagrant group=users recurse=true
   sudo: yes
