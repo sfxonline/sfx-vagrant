@@ -28,7 +28,6 @@ Vagrant.configure("2") do |config|
 
     config.vm.hostname = "shopware5"
 
-    config.vm.synced_folder "./ansible", "/ansible"
     config.vm.synced_folder "./src", "/home/vagrant/www/shopware", create: true;
 
     config.vm.provider "virtualbox" do |vb|
@@ -40,14 +39,13 @@ Vagrant.configure("2") do |config|
     end
 
     if OS.windows?
+        config.vm.synced_folder "./ansible", "/ansible"
         config.vm.provision :shell do |sh|
             sh.keep_color = true
             sh.privileged = false
             sh.path = "provision.sh"
             sh.args = "./ansible-tmp /ansible/playbook.yml /vagrant/ansible-inventory"
         end
-    elsif OS.mac?
-        puts "Vagrant launched from mac."
     else
         config.vm.provision "ansible" do |ansible|
             ansible.playbook = "ansible/playbook.yml"

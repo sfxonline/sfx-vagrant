@@ -3,6 +3,12 @@
   apt: update_cache=yes cache_valid_time=3600
   sudo: yes
 
+- name: remove packages
+  apt: pkg={{ item }} state=absent
+  sudo: yes
+  with_items:
+    - chef
+
 - name: upgrade the distro
   apt: upgrade=yes
   sudo: yes
@@ -30,7 +36,7 @@
     - avahi-daemon
     - php5-sqlite
     - php5-xdebug
-    #- openjdk-7-jdk
+    - openjdk-7-jdk-headless
 
 - name: copy tmux config
   template: src=tmux.conf dest=~/.tmux.conf
