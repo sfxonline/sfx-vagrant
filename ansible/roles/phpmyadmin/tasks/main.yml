@@ -22,7 +22,8 @@
 - name: install phpmyadmin
   apt: pkg=phpmyadmin state=present
   sudo: yes
-
-- name: configure site
-  file: path={{ apache_root}}/phpmyadmin src=/usr/share/phpmyadmin state=link
+  
+- file: path=/var/lib/phpmyadmin state=directory group="vagrant" recurse=yes
+  sudo: yes
+- file: path=/etc/phpmyadmin state=directory group="vagrant" recurse=yes
   sudo: yes

@@ -8,5 +8,5 @@
     - apache
     - phpmyadmin
     - ioncube
-    - shopware4
-    #- shopware5
+    #- shopware4
+    - shopware5

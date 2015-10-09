@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
             sh.keep_color = true
             sh.privileged = false
             sh.path = "provision.sh"
-            sh.args = "./ansible-tmp ./ansible/playbook.yml ./ansible-inventory"
+            sh.args = "./ansible-tmp /ansible/playbook.yml /vagrant/ansible-inventory"
         end
     else
         config.vm.provision "ansible" do |ansible|
