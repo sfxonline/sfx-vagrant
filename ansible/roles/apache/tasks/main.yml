@@ -10,6 +10,7 @@
     - php5-mysql
     - php5-sqlite
     - php5-xdebug
+    - php5-apcu
 
 - name: Set /var/lock/apache2 owner
   file: path=/var/lock/apache2 recurse=yes state=directory group={{ apache_group }} owner={{ apache_user }}

@@ -26,8 +26,8 @@ if [ ! -d $ANSIBLE_DIR ]; then
 	rm -f ansible-latest.tar.gz
 	mv ansible-* ${ANSIBLE_DIR}
 	cd ${ANSIBLE_DIR}
-	make
-	sudo make install
+	make -s
+	sudo make -s install
 fi
 
 cd ${ANSIBLE_DIR}

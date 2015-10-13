@@ -35,6 +35,6 @@
   file: path=/etc/php5/cli/conf.d/00-ioncube.ini src=/etc/php5/mods-available/ioncube.ini state=link
   sudo: yes
 
-- name: Disable php5-opcache for Apache 2 PHP Module
-  file: path=/etc/php5/apache2/conf.d/05-opcache.ini state=absent
-  sudo: yes
+#- name: Disable php5-opcache for Apache 2 PHP Module
+#  file: path=/etc/php5/apache2/conf.d/05-opcache.ini state=absent
+#  sudo: yes
