@@ -10,6 +10,13 @@
         Require all granted
     </Directory>
 
+    Alias /phpmyadmin "/usr/share/phpmyadmin"
+    <Directory "/usr/share/phpmyadmin">
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Require all granted
+    </Directory>
+
     CustomLog ${APACHE_LOG_DIR}/access.log combined
     ErrorLog ${APACHE_LOG_DIR}/error.log
 </VirtualHost>
@@ -24,6 +31,13 @@
 
     DocumentRoot {{ apache_root}}
     <Directory {{ apache_root }}>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    Alias /phpmyadmin "/usr/share/phpmyadmin"
+    <Directory "/usr/share/phpmyadmin">
         Options Indexes FollowSymLinks MultiViews
         AllowOverride All
         Require all granted

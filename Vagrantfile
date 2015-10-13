@@ -22,19 +22,19 @@ Vagrant.configure("2") do |config|
 
     config.ssh.forward_agent = true
 
-    config.vm.box = "ubuntu/trusty32"
+    config.vm.box = "ubuntu/vivid64"
 
     config.vm.network :private_network, ip: "33.33.33.10"
 
     config.vm.hostname = "shopware5"
 
-    config.vm.synced_folder "./src", "/home/vagrant/www/shopware", create: true;
+    config.vm.synced_folder "./www", "/home/vagrant/www", create: true
 
     config.vm.provider "virtualbox" do |vb|
         vb.name = "shopware5"
         vb.customize ["modifyvm", :id, "--cpus", 2]
         vb.customize ["modifyvm", :id, "--ioapic", "on"]
-        vb.customize ["modifyvm", :id, "--memory", 1024]
+        vb.customize ["modifyvm", :id, "--memory", 2048]
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
     end
 
@@ -50,6 +50,7 @@ Vagrant.configure("2") do |config|
         config.vm.provision "ansible" do |ansible|
             ansible.playbook = "ansible/playbook.yml"
             ansible.inventory_path = "ansible-inventory"
+            ansible.limit = "vagrant"
         end
     end
 end

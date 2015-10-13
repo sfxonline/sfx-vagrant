@@ -1,28 +1,29 @@
 ---
-- name: debconf for pma
+- name: debconf for phpmyadmin
   debconf: name=phpmyadmin question='phpmyadmin/dbconfig-install' value='true' vtype='boolean'
   sudo: yes
 
-- name: debconf for pma
+- name: debconf for phpmyadmin
   debconf: name=phpmyadmin question='phpmyadmin/app-password-confirm' value='{{phpmyadmin_mysql_password}}' vtype='password'
   sudo: yes
 
-- name: debconf for pma
+- name: debconf for phpmyadmin
   debconf: name=phpmyadmin question='phpmyadmin/mysql/admin-pass' value='{{phpmyadmin_mysql_password}}' vtype='password'
   sudo: yes
 
-- name: debconf for pma
+- name: debconf for phpmyadmin
   debconf: name=phpmyadmin question='phpmyadmin/mysql/app-pass' value='{{phpmyadmin_mysql_password}}' vtype='password'
   sudo: yes
 
-- name: debconf for pma
+- name: debconf for phpmyadmin
   debconf: name=phpmyadmin question='phpmyadmin/reconfigure-webserver' value='' vtype='multiselect'
   sudo: yes
 
-- name: install pma
+- name: install phpmyadmin
   apt: pkg=phpmyadmin state=present
   sudo: yes
-
-- name: configure site
-  file: path={{ apache_root}}/phpmyadmin src=/usr/share/phpmyadmin state=link
+  
+- file: path=/var/lib/phpmyadmin state=directory group="vagrant" recurse=yes
+  sudo: yes
+- file: path=/etc/phpmyadmin state=directory group="vagrant" recurse=yes
   sudo: yes

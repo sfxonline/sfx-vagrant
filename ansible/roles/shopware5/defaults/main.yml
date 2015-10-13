@@ -1,0 +1,10 @@
+---
+shopware5_install_path: "/home/vagrant/www/shopware5"
+shopware5_db_host: "localhost"
+shopware5_db_port: "3306"
+shopware5_db_name: "shopware5"
+shopware5_db_pass: "shopware5"
+shopware5_db_user: "shopware5"
+shopware5_app_path: "/shopware5"
+shopware5_app_host: "33.33.33.10"
+shopware5_php_error_reporting: "E_ALL & ~E_NOTICE & ~E_DEPRECATED"

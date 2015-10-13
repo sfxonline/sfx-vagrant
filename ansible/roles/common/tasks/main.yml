@@ -34,9 +34,7 @@
     - cowsay
     - tmux
     - avahi-daemon
-    - php5-sqlite
-    - php5-xdebug
-    - openjdk-7-jdk-headless
+    - openjdk-7-jre-headless
 
 - name: copy tmux config
   template: src=tmux.conf dest=~/.tmux.conf
