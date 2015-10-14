@@ -25,7 +25,7 @@ INSERT INTO `s_core_multilanguage` (`id`, `mainID`, `isocode`, `locale`, `parent
 /*!40000 ALTER TABLE `s_core_shops` DISABLE KEYS */;
 TRUNCATE TABLE `s_core_shops`;
 INSERT INTO `s_core_shops` (`id`, `main_id`, `name`, `title`, `position`, `host`, `base_path`, `base_url`, `hosts`, `secure`, `secure_host`, `secure_base_path`, `template_id`, `document_template_id`, `category_id`, `locale_id`, `currency_id`, `customer_group_id`, `fallback_id`, `customer_scope`, `default`, `active`, `always_secure`) VALUES
-	(1, NULL, 'sfxonline Testshop', NULL, 0, '33.33.33.10', '/shopware', NULL, '33.33.33.10', 0, NULL, NULL, 23, 23, 3, 1, 1, 1, NULL, 0, 1, 1, 0);
+	(1, NULL, 'sfxonline Testshop', NULL, 0, '33.33.33.10', '/shopware5', NULL, '33.33.33.10', 0, NULL, NULL, 23, 23, 3, 1, 1, 1, NULL, 0, 1, 1, 0);
 /*!40000 ALTER TABLE `s_core_shops` ENABLE KEYS */;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -1,17 +1,41 @@
 <?php
 /* {{ ansible_managed }} */
 return array (
-  'db' =>
-  array (
-    'host' => '{{ shopware5_db_host }}',
-    'port' => '{{ shopware5_db_port }}',
-    'username' => '{{ shopware5_db_user }}',
-    'password' => '{{ shopware5_db_pass }}',
-    'dbname' => '{{ shopware5_db_name }}',
-  ),
-  'phpSettings' =>
-  array(
-    'error_reporting' => '{{ shopware5_php_error_reporting }}',
-    'error_display' => 'Off'
-  ),
+    'db' => [
+        'host' => '{{ shopware5_db_host }}',
+        'port' => '{{ shopware5_db_port }}',
+        'username' => '{{ shopware5_db_user }}',
+        'password' => '{{ shopware5_db_pass }}',
+        'dbname' => '{{ shopware5_db_name }}',
+    ],
+    'phpSettings' => [
+        'error_reporting' => '{{ shopware5_php_error_reporting }}',
+        'error_display' => 'Off'
+    ],
+    'template' => [
+        'cacheDir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/templates',
+        'compileDir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/templates',
+    ],
+    'httpcache' => [
+        'cache_dir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/html',
+    ],
+    'cache' => [
+        'frontendOptions' => [
+            'cache_id_prefix' => md5('/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION)
+        ],
+        'backend' => 'auto', // e.G auto, apc, xcache
+        'backendOptions' => [
+            'cache_dir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/general',
+        ],
+    ],
+    'hook' => [
+        'proxyDir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/proxies',
+    ],
+    'model' => [
+        'fileCacheDir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/doctrine/filecache',
+        'attributeDir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/doctrine/attributes',
+        'proxyDir'     => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/doctrine/proxies',
+//        'cacheProvider' => 'auto', // supports null, auto, Apc, Array, Wincache and Xcache
+    ],
+
 );
