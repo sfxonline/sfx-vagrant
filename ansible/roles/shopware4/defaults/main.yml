@@ -1,10 +1,10 @@
 ---
-shopware4_install_path: "/home/vagrant/www/shopware4"
+shopware4_install_path: "{{ web_root }}/shopware4"
 shopware4_db_host: "localhost"
 shopware4_db_port: "3306"
 shopware4_db_name: "shopware4"
 shopware4_db_pass: "shopware4"
 shopware4_db_user: "shopware4"
 shopware4_app_path: "/shopware4"
-shopware4_app_host: "33.33.33.10"
+shopware4_app_host: "{{ app_host }}"
 shopware4_php_error_reporting: "E_ALL & ~E_NOTICE & ~E_DEPRECATED"

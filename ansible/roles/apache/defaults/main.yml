@@ -1,4 +1,4 @@
 ---
 apache_user: vagrant
 apache_group: vagrant
-apache_root: /home/vagrant/www
+apache_root: "{{ web_root }}"
