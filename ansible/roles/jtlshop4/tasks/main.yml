@@ -1,0 +1,30 @@
+---
+- file: path="{{ jtlshop4_install_path }}" state=directory
+- name: Unzip JTLShop4
+#  get_url: url="{{ jtlshop4_setup_url }}" dest=/home/vagrant/jtlshop4.zip
+  unarchive: src={{ web_root }}/{{ jtlshop4_release_archive }} dest={{ jtlshop4_install_path }} copy=no creates={{ jtlshop4_install_path }}/jtl.php
+- file: path="{{ web_root }}/{{ jtlshop4_release_archive }}" state=absent
+- file: path="{{ jtlshop4_install_path }}/includes/config.JTL-Shop.ini.php" state=touch mode=777
+
+- name: Setup Owner
+  file: path={{ jtlshop4_install_path }} owner=vagrant group=users recurse=true
+  sudo: yes
+
+- name: Setup Permissions
+  file: path={{ item }} recurse=true state=directory mode=777
+  with_items:
+    - "{{ jtlshop4_install_path }}/media"
+    - "{{ jtlshop4_install_path }}/bilder"
+    - "{{ jtlshop4_install_path }}/templates_c"
+    - "{{ jtlshop4_install_path }}/admin/templates_c"
+    - "{{ jtlshop4_install_path }}/update"
+    - "{{ jtlshop4_install_path }}/uploads"
+    - "{{ jtlshop4_install_path }}/jtllogs"
+
+- name: Create shopware db
+  mysql_db: name={{ jtlshop4_db_name }} state=present
+  sudo: yes
+
+- name: Create shopware db user
+  mysql_user: name={{ jtlshop4_db_user }} password={{ jtlshop4_db_pass }} priv={{ jtlshop4_db_name }}.*:ALL state=present
+  sudo: yes
