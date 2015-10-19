@@ -2,12 +2,6 @@
 - name: apply common configuration to all nodes
   hosts: all
   roles:
-    - common
-    - mariadb
-    #- mysql
-    - apache
-    - phpmyadmin
-    - ioncube
     #- shopware4
     - shopware5
     #- jtlshop4
