@@ -1,5 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+projectname = File.basename(Dir.getwd)
 module OS
     def OS.windows?
         (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
@@ -26,12 +27,12 @@ Vagrant.configure("2") do |config|
 
     config.vm.network :private_network, ip: "33.33.33.10"
 
-    config.vm.hostname = "shopware5"
+    config.vm.hostname = projectname
 
     config.vm.synced_folder "./www", "/home/vagrant/www", create: true
 
     config.vm.provider "virtualbox" do |vb|
-        vb.name = "shopware5"
+        vb.name = projectname
         vb.customize ["modifyvm", :id, "--cpus", 2]
         vb.customize ["modifyvm", :id, "--ioapic", "on"]
         vb.customize ["modifyvm", :id, "--memory", 2048]
