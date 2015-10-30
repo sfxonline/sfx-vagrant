@@ -22,4 +22,6 @@ mkdir -p -m 0777 /dev/shm/cache/doctrine/attributes/
 
 chown -R {{ apache_user }}:{{ apache_group }} /dev/shm/cache/
 
+{{ shopware5_install_path }}/bin/console sw:theme:cache:generate
+
 exit 0

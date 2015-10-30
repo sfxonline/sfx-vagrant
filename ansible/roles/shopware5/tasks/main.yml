@@ -55,7 +55,12 @@
   mysql_db: name={{ shopware5_db_name }} state=import target={{ shopware5_install_path }}/recovery/install/data/sql/snippets.sql login_user={{ shopware5_db_user }} login_password={{ shopware5_db_pass }}
 
 - name: Create Shopware Admin user
-  copy: src=setup_wizard_data.sql dest=/tmp
+  template:
+    src: setup_wizard_data.sql.j2
+    dest: "/tmp/setup_wizard_data.sql"
+    owner: vagrant
+    group: vagrant
+    mode: 0755
 - mysql_db: name={{ shopware5_db_name }} state=import target=/tmp/setup_wizard_data.sql login_user={{ shopware5_db_user }} login_password={{ shopware5_db_pass }}
 
 - name: Create install lock file
