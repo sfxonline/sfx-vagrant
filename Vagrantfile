@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.hostname = projectname
 
-    config.vm.synced_folder "./www", "/home/vagrant/www", create: true
+    #config.vm.synced_folder "./www", "/home/vagrant/www", create: true
 
     config.vm.provider "virtualbox" do |vb|
         vb.name = projectname

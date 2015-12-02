@@ -1,0 +1,21 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          make_cache_dirs
+# Required-Start:    $syslog
+# Required-Stop:     $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Run once to create cache dirs on /dev/shm/
+# Description:       Creates chaching direcories needed by shopware
+### END INIT INFO
+# /etc/init.d/make_cache_dirs
+# {{ ansible_managed }}
+
+mkdir -p -m 0777 /dev/shm/cache/
+
+chown {{ apache_user }}:{{ apache_group }} /dev/shm/cache/
+
+{{ shopware5_install_path }}/bin/console sw:theme:cache:generate
+chown -R {{ apache_user }}:{{ apache_group }} /dev/shm/cache/
+
+exit 0

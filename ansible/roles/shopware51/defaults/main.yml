@@ -1,0 +1,11 @@
+---
+shopware5_download_url: "http://releases.s3.shopware.com.s3.amazonaws.com/install_5.1.1_3ad625236466a973e6d569d5699f1b7094121298.zip"
+shopware5_install_path: "{{ web_root }}/shopware5"
+shopware5_db_host: "localhost"
+shopware5_db_port: "3306"
+shopware5_db_name: "shopware5"
+shopware5_db_pass: "shopware5"
+shopware5_db_user: "shopware5"
+shopware5_app_path: "/shopware5"
+shopware5_app_host: "{{ app_host }}"
+shopware5_php_error_reporting: "E_ALL & ~E_NOTICE & ~E_DEPRECATED"

@@ -1,0 +1,437 @@
+SET NAMES 'utf8';
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+SET FOREIGN_KEY_CHECKS = 0;
+
+--
+-- Table structure for table `s_core_auth`
+--
+
+DROP TABLE IF EXISTS `s_core_auth`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_core_auth` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `roleID` int(11) NOT NULL,
+  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `encoder` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'LegacyBackendMd5',
+  `apiKey` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `localeID` int(11) NOT NULL,
+  `sessionID` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `lastlogin` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(120) COLLATE utf8_unicode_ci NOT NULL,
+  `active` int(1) NOT NULL DEFAULT '0',
+  `failedlogins` int(11) NOT NULL,
+  `lockeduntil` datetime DEFAULT NULL,
+  `extended_editor` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `disabled_cache` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_core_auth`
+--
+
+LOCK TABLES `s_core_auth` WRITE;
+/*!40000 ALTER TABLE `s_core_auth` DISABLE KEYS */;
+INSERT INTO `s_core_auth` VALUES (50,1,'demo','$2y$10$/aQpnFHGi4A6zCEyi/E22eTpBhgkz5x5pSXu70GxDyIWyilOuAhei','bcrypt',NULL,1,'vg958huvovv99gbumme64nm602','2015-11-30 16:08:59','Demo-Admin','demo@demo.de',1,0,'0000-00-00 00:00:00',0,0);
+/*!40000 ALTER TABLE `s_core_auth` ENABLE KEYS */;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `s_core_config_values`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_core_config_values` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `element_id` int(11) unsigned NOT NULL,
+  `shop_id` int(11) unsigned DEFAULT NULL,
+  `value` longtext COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `shop_id` (`shop_id`),
+  KEY `element_id` (`element_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_core_config_values`
+--
+
+LOCK TABLES `s_core_config_values` WRITE;
+/*!40000 ALTER TABLE `s_core_config_values` DISABLE KEYS */;
+INSERT INTO `s_core_config_values` VALUES (56,674,1,'s:19:\"your.email@shop.com\";'),(57,673,1,'s:8:\"Demoshop\";'),(58,675,1,'s:0:\"\";'),(59,677,1,'s:0:\"\";'),(60,893,1,'s:0:\"\";'),(61,984,1,'b:1;'),(62,999,1,'b:0;'),(63,966,1,'s:32:\"AdkyofBe3S74hpo0beTVK3qLBuOdDQxJ\";');
+/*!40000 ALTER TABLE `s_core_config_values` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `s_core_log`
+--
+
+DROP TABLE IF EXISTS `s_core_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_core_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `text` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+  `date` datetime NOT NULL,
+  `user` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `ip_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `user_agent` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value4` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_core_log`
+--
+
+LOCK TABLES `s_core_log` WRITE;
+/*!40000 ALTER TABLE `s_core_log` DISABLE KEYS */;
+INSERT INTO `s_core_log` VALUES (1,'backend','Versandkosten Verwaltung','Einstellungen wurden erfolgreich gespeichert.','2012-08-28 10:38:26','Administrator','217.86.247.178','Mozilla/5.0 (Windows NT 6.1; WOW64; rv:14.0) Gecko/20100101 Firefox/14.0.1 FirePHP/0.7.1',''),(2,'backend','First Run Wizard','Einstellungen gespeichert','2015-11-30 16:08:38','Demo-Admin','33.33.33.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36','');
+/*!40000 ALTER TABLE `s_core_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `s_core_plugins`
+--
+
+DROP TABLE IF EXISTS `s_core_plugins`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_core_plugins` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `namespace` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `source` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` mediumtext COLLATE utf8_unicode_ci,
+  `description_long` mediumtext COLLATE utf8_unicode_ci,
+  `active` int(1) unsigned NOT NULL,
+  `added` datetime NOT NULL,
+  `installation_date` datetime DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
+  `refresh_date` datetime DEFAULT NULL,
+  `author` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `copyright` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `license` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `support` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `changes` mediumtext COLLATE utf8_unicode_ci,
+  `link` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `store_version` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `store_date` datetime DEFAULT NULL,
+  `capability_update` int(1) NOT NULL,
+  `capability_install` int(1) NOT NULL,
+  `capability_enable` int(1) NOT NULL,
+  `update_source` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `update_version` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `capability_secure_uninstall` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `namespace` (`namespace`,`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_core_plugins`
+--
+
+LOCK TABLES `s_core_plugins` WRITE;
+/*!40000 ALTER TABLE `s_core_plugins` DISABLE KEYS */;
+INSERT INTO `s_core_plugins` VALUES (2,'Core','ErrorHandler','ErrorHandler','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,0,0,NULL,NULL,0),(7,'Core','Cron','Cron','Default','','',0,'2012-08-28 00:00:00',NULL,NULL,'2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,1,1,NULL,NULL,0),(8,'Core','Router','Router','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,0,0,NULL,NULL,0),(9,'Core','CronBirthday','CronBirthday','Default','','',0,'2012-08-28 00:00:00',NULL,NULL,'2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,1,1,NULL,NULL,0),(10,'Core','System','System','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,0,0,NULL,NULL,0),(11,'Core','ViewportForward','ViewportForward','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,0,0,NULL,NULL,0),(12,'Core','Shop','Shop','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00',NULL,'shopware AG','Copyright © 2010, shopware AG','','1','http://www.shopware.de/wiki/','','http://www.shopware.de/',NULL,NULL,0,0,0,NULL,NULL,0),(13,'Core','PostFilter','PostFilter','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,0,0,NULL,NULL,0),(14,'Core','CronRating','CronRating','Default','','',0,'2012-08-28 00:00:00',NULL,NULL,'2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,1,1,NULL,NULL,0),(15,'Core','ControllerBase','ControllerBase','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,0,0,NULL,NULL,0),(16,'Core','CronStock','CronStock','Default','','',0,'2012-08-28 00:00:00',NULL,NULL,'2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,1,1,NULL,NULL,0),(18,'Core','License','License','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00',NULL,'shopware AG','Copyright © 2010, shopware AG','','1','http://www.shopware.de/wiki/','','http://www.shopware.de/',NULL,NULL,0,0,0,NULL,NULL,0),(19,'Frontend','RouterRewrite','RouterRewrite','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:08','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,0,0,0,NULL,NULL,0),(21,'Frontend','Facebook','Facebook','Default','','',0,'2012-08-28 00:00:00',NULL,NULL,NULL,'shopware AG','Copyright © 2010, shopware AG','','1','http://www.shopware.de/wiki/','','http://www.shopware.de/',NULL,NULL,0,0,0,NULL,NULL,0),(22,'Frontend','Seo','Seo','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:08','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,0,0,NULL,NULL,0),(23,'Frontend','LastArticles','LastArticles','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:08','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,1,1,NULL,NULL,0),(26,'Frontend','Google','Google Analytics (deprecated)','Default','<h3>This plugin is no longer supported. Please use the new \"Google Services\" plugin instead, available on the community store.</h3>','',0,'2012-08-28 00:00:00',NULL,NULL,NULL,'shopware AG','Copyright © 2010, shopware AG','','2.0.0','http://www.shopware.de
+/wiki/','','http://www.shopware.de/',NULL,NULL,0,0,0,NULL,NULL,0),(29,'Frontend','AdvancedMenu','Erweitertes Menü','Default','','',0,'2012-08-28 00:00:00',NULL,NULL,'2015-11-30 16:08:08','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,1,1,NULL,NULL,0),(31,'Frontend','Statistics','Statistics','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:08','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,1,1,NULL,NULL,0),(33,'Frontend','Notification','Notification','Default','','',0,'2012-08-28 00:00:00',NULL,NULL,'2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,1,1,NULL,NULL,0),(34,'Frontend','TagCloud','TagCloud','Default','','',0,'2012-08-28 00:00:00',NULL,NULL,'2015-11-30 16:08:08','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,1,1,NULL,NULL,0),(35,'Frontend','InputFilter','InputFilter','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,0,1,NULL,NULL,0),(36,'Backend','Auth','Auth','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00','2015-11-30 16:08:08','shopware AG','Copyright © 2012, shopware AG',NULL,'1',NULL,'',NULL,NULL,NULL,1,0,0,NULL,NULL,0),(37,'Backend','Menu','Menu','Default','','',1,'2012-08-28 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00',NULL,'shopware AG','Copyright © 2010, shopware AG','','1','http://www.shopware.de/wiki/','','http://www.shopware.de/',NULL,NULL,0,0,0,NULL,NULL,0),(39,'Frontend','Payment','Payment','Default','','',1,'2012-08-28 00:00:00','2011-05-11 14:06:17','2011-05-11 14:06:17','2015-11-30 16:08:08','shopware AG','Copyright © 2012, shopware AG',NULL,'1.0.0',NULL,'',NULL,NULL,NULL,1,1,1,NULL,NULL,0),(40,'Backend','Check','Systeminfo','Default','','',1,'2010-10-18 00:00:00','2010-10-18 00:00:00','2010-10-18 00:00:00',NULL,'shopware AG','Copyright © 2011, shopware AG','','1.0.0','http://wiki.shopware.de','','http://www.shopware.de/',NULL,NULL,0,0,0,NULL,NULL,0),(43,'Backend','Locale','Locale','Default','','',1,'2012-08-27 22:28:53','2012-08-27 22:28:53','2012-08-27 22:28:53',NULL,'shopware AG','Copyright &copy; 2011, shopware AG','','1.0.0','http://wiki.shopware.de','','http://www.shopware.de/',NULL,NULL,0,0,0,NULL,NULL,0),(44,'Core','RestApi','RestApi','Default','','',1,'2012-07-13 12:03:13','2012-07-13 12:03:36','2012-07-13 12:03:36','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1.0.0',NULL,'',NULL,NULL,NULL,1,0,0,NULL,NULL,0),(49,'Core','PasswordEncoder','PasswordEncoder','Default',NULL,NULL,1,'2013-04-16 12:13:54','2013-04-16 14:07:23','2013-04-16 14:07:23','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1.0.0',NULL,NULL,NULL,NULL,NULL,1,0,0,NULL,NULL,0),(50,'Core','MarketingAggregate','Shopware Marketing Aggregat Funktionen','Default',NULL,NULL,1,'2013-04-30 14:19:13','2013-04-30 14:26:48','2013-04-30 14:26:48','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1.0.0',NULL,NULL,'http://www.shopware.de/',NULL,NULL,1,0,0,NULL,NULL,0),(51,'Core','RebuildIndex','Shopware Such- und SEO-Index','Default',NULL,NULL,1,'2013-05-19 10:53:24','2013-05-21 13:28:04','2013-05-21 13:28:04','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1.0.0',NULL,NULL,'http://www.shopware.de/',NULL,NULL,1,0,0,NULL,NULL,0),(52,'Core','HttpCache','Frontendcache (HttpCache)','Default',NULL,NULL,0,'2013-05-27 15:57:59','2013-05-27 15:58:09','2013-05-27 15:58:09','2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1.1.0',NULL,NULL,NULL,NULL,NULL,1,0,0,NULL,NULL,0),(53,'Core','PaymentMethods','Payment Methods','Default','Shopware Payment Methods handling. This plugin is required to handle payment methods, and should not be deactivated',NULL,1,'2013-10-30 08:12:22','2013-10-30 08:13:26','2013-10-30 08:13:26','2015-11-30 16:08:07','shopware
+ AG','Copyright © 2012, shopware AG',NULL,'1.0.1',NULL,NULL,NULL,NULL,NULL,0,0,0,NULL,NULL,0),(54,'Core','Debug','Debug','Default',NULL,NULL,0,'2014-01-17 09:19:05',NULL,NULL,'2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1.0.0',NULL,NULL,NULL,NULL,NULL,1,1,1,NULL,NULL,0),(55,'Backend','SwagUpdate','Shopware Auto Update','Default',NULL,NULL,1,'2014-05-06 09:03:01','2014-05-06 09:03:06','2014-05-06 09:03:06','2015-11-30 16:08:08','shopware AG','Copyright © 2012, shopware AG',NULL,'1.0.0',NULL,NULL,NULL,NULL,NULL,1,1,1,NULL,NULL,0),(56,'Backend','PluginManager','Plugin Manager','Default',NULL,NULL,1,'2014-11-07 11:55:46','2014-11-07 11:55:54','2014-11-07 11:55:54','2015-11-30 16:08:08','shopware AG','Copyright © 2012, shopware AG',NULL,'1.0.0',NULL,NULL,NULL,NULL,NULL,1,1,1,NULL,NULL,0),(57,'Core','CronProductExport','CronProductExport','Default',NULL,NULL,0,'2015-11-30 16:08:07',NULL,NULL,'2015-11-30 16:08:07','shopware AG','Copyright © 2012, shopware AG',NULL,'1.0.0',NULL,NULL,NULL,NULL,NULL,1,1,1,NULL,NULL,0),(58,'Frontend','CronRefresh','CronRefresh','Default',NULL,NULL,0,'2015-11-30 16:08:08',NULL,NULL,'2015-11-30 16:08:08','shopware AG','Copyright © 2012, shopware AG',NULL,'1.0.0',NULL,NULL,NULL,NULL,NULL,1,1,1,NULL,NULL,0);
+/*!40000 ALTER TABLE `s_core_plugins` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `s_core_shops`
+--
+
+DROP TABLE IF EXISTS `s_core_shops`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_core_shops` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `main_id` int(11) unsigned DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `position` int(11) NOT NULL,
+  `host` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `base_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `base_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `hosts` text COLLATE utf8_unicode_ci NOT NULL,
+  `secure` int(1) unsigned NOT NULL,
+  `secure_host` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `secure_base_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `template_id` int(11) unsigned DEFAULT NULL,
+  `document_template_id` int(11) unsigned DEFAULT NULL,
+  `category_id` int(11) unsigned DEFAULT NULL,
+  `locale_id` int(11) unsigned DEFAULT NULL,
+  `currency_id` int(11) unsigned DEFAULT NULL,
+  `customer_group_id` int(11) unsigned DEFAULT NULL,
+  `fallback_id` int(11) unsigned DEFAULT NULL,
+  `customer_scope` int(1) NOT NULL,
+  `default` int(1) unsigned NOT NULL,
+  `active` int(1) NOT NULL,
+  `always_secure` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `main_id` (`main_id`),
+  KEY `host` (`host`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_core_shops`
+--
+
+LOCK TABLES `s_core_shops` WRITE;
+/*!40000 ALTER TABLE `s_core_shops` DISABLE KEYS */;
+INSERT INTO `s_core_shops` VALUES (1,NULL,'Demoshop',NULL,0,'{{ shopware5_app_host }}','{{ shopware5_app_path }}',NULL,'{{ shopware5_app_host }}',0,NULL,NULL,23,23,3,1,1,1,NULL,0,1,1,0);
+/*!40000 ALTER TABLE `s_core_shops` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
+-- Table structure for table `s_core_templates`
+--
+
+DROP TABLE IF EXISTS `s_core_templates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_core_templates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `template` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `author` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `license` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `esi` tinyint(1) unsigned NOT NULL,
+  `style_support` tinyint(1) unsigned NOT NULL,
+  `emotion` tinyint(1) unsigned NOT NULL,
+  `version` int(11) unsigned NOT NULL,
+  `plugin_id` int(11) unsigned DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `basename` (`template`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_core_templates`
+--
+
+LOCK TABLES `s_core_templates` WRITE;
+/*!40000 ALTER TABLE `s_core_templates` DISABLE KEYS */;
+INSERT INTO `s_core_templates` VALUES (22,'Bare','__theme_name__','__theme_description__','__author__','__license__',1,1,1,3,NULL,NULL),(23,'Responsive','__theme_name__','__theme_description__','__author__','__license__',1,1,1,3,NULL,22),(24,'emotion_orange','Emotion Orange',NULL,'shopware AG','New BSD',1,0,1,2,NULL,NULL),(25,'emotion_black','Emotion Black',NULL,'shopware AG','New BSD',1,0,1,2,NULL,NULL),(26,'emotion_brown','Emotion Brown',NULL,'shopware AG','New BSD',1,0,1,2,NULL,NULL),(27,'emotion_green','Emotion Green',NULL,'shopware AG','New BSD',1,0,1,2,NULL,NULL),(28,'emotion_red','Emotion Red',NULL,'shopware AG','New BSD',1,0,1,2,NULL,NULL),(29,'emotion_pink','Emotion Pink',NULL,'shopware AG','New BSD',1,0,1,2,NULL,NULL),(30,'emotion_turquoise','Emotion Turquoise',NULL,'shopware AG','New BSD',1,0,1,2,NULL,NULL),(31,'emotion_blue','Emotion Blue',NULL,'shopware AG','New BSD',1,0,1,2,NULL,NULL),(32,'emotion_gray','Emotion Gray',NULL,'shopware AG','New BSD',1,0,1,2,NULL,NULL);
+/*!40000 ALTER TABLE `s_core_templates` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `s_core_templates_config_elements`
+--
+
+DROP TABLE IF EXISTS `s_core_templates_config_elements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_core_templates_config_elements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `template_id` int(11) NOT NULL,
+  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `position` int(11) NOT NULL DEFAULT '0',
+  `default_value` text COLLATE utf8_unicode_ci,
+  `selection` text COLLATE utf8_unicode_ci,
+  `field_label` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `support_text` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `allow_blank` int(1) NOT NULL DEFAULT '1',
+  `container_id` int(11) NOT NULL,
+  `attributes` text COLLATE utf8_unicode_ci,
+  `less_compatible` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `template_id_name` (`template_id`,`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_core_templates_config_elements`
+--
+
+LOCK TABLES `s_core_templates_config_elements` WRITE;
+/*!40000 ALTER TABLE `s_core_templates_config_elements` DISABLE KEYS */;
+INSERT INTO `s_core_templates_config_elements` VALUES (1,22,'theme-media-selection','mobileLogo',0,'s:47:\"frontend/_public/src/img/logos/logo--mobile.png\";','N;','__smartphone__',NULL,1,3,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(2,22,'theme-media-selection','tabletLogo',0,'s:47:\"frontend/_public/src/img/logos/logo--tablet.png\";','N;','__tablet__',NULL,1,3,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(3,22,'theme-media-selection','tabletLandscapeLogo',0,'s:47:\"frontend/_public/src/img/logos/logo--tablet.png\";','N;','__tablet_landscape__',NULL,1,3,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(4,22,'theme-media-selection','desktopLogo',0,'s:47:\"frontend/_public/src/img/logos/logo--tablet.png\";','N;','__desktop__',NULL,1,3,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(5,22,'theme-media-selection','appleTouchIcon',0,'s:57:\"frontend/_public/src/img/apple-touch-icon-precomposed.png\";','N;','__apple_touch_icon__',NULL,1,4,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(6,22,'theme-checkbox-field','setPrecomposed',0,'b:1;','N;','Precomposed Icon',NULL,1,4,'a:1:{s:8:\"boxLabel\";s:73:\"Wenn aktiv, wird iOS keine Glaseffekte auf das Apple Touch Icon anwenden.\";}',1),(7,22,'theme-media-selection','win8TileImage',0,'s:43:\"frontend/_public/src/img/win-tile-image.png\";','N;','__win8_tile_image__',NULL,1,4,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(8,22,'theme-media-selection','favicon',0,'s:36:\"frontend/_public/src/img/favicon.ico\";','N;','__favicon__',NULL,1,4,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(9,23,'theme-media-selection','mobileLogo',0,'s:47:\"frontend/_public/src/img/logos/logo--mobile.png\";','N;','__smartphone__',NULL,1,7,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(10,23,'theme-media-selection','tabletLogo',0,'s:47:\"frontend/_public/src/img/logos/logo--tablet.png\";','N;','__tablet__',NULL,1,7,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(11,23,'theme-media-selection','tabletLandscapeLogo',0,'s:47:\"frontend/_public/src/img/logos/logo--tablet.png\";','N;','__tablet_landscape__',NULL,1,7,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(12,23,'theme-media-selection','desktopLogo',0,'s:47:\"frontend/_public/src/img/logos/logo--tablet.png\";','N;','__desktop__',NULL,1,7,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(13,23,'theme-media-selection','appleTouchIcon',0,'s:57:\"frontend/_public/src/img/apple-touch-icon-precomposed.png\";','N;','__apple_touch_icon__',NULL,1,8,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(14,23,'theme-checkbox-field','setPrecomposed',0,'b:1;','N;','Precomposed Icon',NULL,1,8,'a:1:{s:8:\"boxLabel\";s:73:\"Wenn aktiv, wird iOS keine Glaseffekte auf das Apple Touch Icon anwenden.\";}',1),(15,23,'theme-media-selection','win8TileImage',0,'s:43:\"frontend/_public/src/img/win-tile-image.png\";','N;','__win8_tile_image__',NULL,1,8,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(16,23,'theme-media-selection','favicon',0,'s:36:\"frontend/_public/src/img/favicon.ico\";','N;','__favicon__',NULL,1,8,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(17,23,'theme-checkbox-field','offcanvasCart',0,'b:1;','N;','__offcanvas_cart__',NULL,1,10,'a:1:{s:8:\"boxLabel\";s:51:\"Wenn aktiv, wird der Offcanvas Warenkorb verwendet.\";}',1),(18,23,'theme-checkbox-field','offcanvasOverlayPage',0,'b:1;','N;','__offcanvas_move_method__',NULL,1,10,'a:1:{s:8:\"boxLabel\";s:106:\"Wenn aktiv, überlagern die Offcanvas Menüs die Shopseite. Andernfalls wird die Shopseite mit verschoben.\";}',1),(19,23,'theme-checkbox-field','focusSearch',0,'b:0;','N;','__focus_search__',NULL,1,10,'a:1:{s:8:\"boxLabel\";s:93:\"Wenn aktiv, wird die Suche in der mobilen Ansicht auf der Startseite automatisch ausgeklappt.\";}',1),(20,23,'theme-checkbox-field','displaySidebar',0,'b:1;','N;','__display_sidebar__',NULL,1,10,'a:1:{s:8:\"boxLabel\";s:99:\"Wenn aktiv, wird die Navigation im Produkt-Listing auf der linken Seite in einer Sidebar angezeigt.\";}',1),(21,23,'theme-checkbox-field','checkoutHeader',0,'b:1;','N;','__checkout_header__',NULL,1,10,'a:1:{s:8:\"boxLabel\";s:142:\"Wenn aktiv, wird ein minimaler Header angezeigt, der den Kunden durch den Checkout führt. Andernfalls wird der normale Shop-Header ange
+zeigt.\";}',1),(22,23,'theme-checkbox-field','checkoutFooter',0,'b:1;','N;','__checkout_footer__',NULL,1,10,'a:1:{s:8:\"boxLabel\";s:95:\"Wenn aktiv, wird ein minimaler Footer angezeigt, der nur die wichtigsten Informationen anzeigt.\";}',1),(23,23,'theme-checkbox-field','infiniteScrolling',0,'b:1;','N;','__enable_infinite_scrolling__',NULL,1,10,'a:1:{s:8:\"boxLabel\";s:86:\"Wenn aktiv, wird das Listing live nachgeladen, sobald der Besucher nach unten scrollt.\";}',1),(24,23,'numberfield','infiniteThreshold',0,'i:4;','N;','__infinite_threshold__',NULL,1,10,'a:1:{s:11:\"supportText\";s:86:\"Anzahl der Seiten, die durch Infinite Scrolling automatisch nachgeladen werden sollen.\";}',1),(25,23,'theme-select-field','lightboxZoomFactor',0,'i:0;','a:5:{i:0;a:2:{s:5:\"value\";i:0;s:4:\"text\";s:29:\"__lightbox_zoom_factor_auto__\";}i:1;a:2:{s:5:\"value\";i:1;s:4:\"text\";s:29:\"__lightbox_zoom_factor_none__\";}i:2;a:2:{s:5:\"value\";i:2;s:4:\"text\";s:27:\"__lightbox_zoom_factor_2x__\";}i:3;a:2:{s:5:\"value\";i:3;s:4:\"text\";s:27:\"__lightbox_zoom_factor_3x__\";}i:4;a:2:{s:5:\"value\";i:5;s:4:\"text\";s:27:\"__lightbox_zoom_factor_5x__\";}}','__lightbox_zoom_factor__',NULL,1,10,'a:1:{s:11:\"supportText\";s:151:\"Maximaler Zoomfaktor in der Fullscreen-Bildbox (Lightbox). Bei der automatischen Skalierung kann das Bild bis zu seiner Originalgröße gezoomt werden.\";}',1),(26,23,'theme-text-field','appleWebAppTitle',0,'s:0:\"\";','N;','__apple_web_app_title__',NULL,1,10,'a:1:{s:14:\"lessCompatible\";b:0;}',0),(27,23,'theme-checkbox-field','ajaxVariantSwitch',0,'b:1;','N;','__ajax_variant_switch__',NULL,1,10,'a:2:{s:14:\"lessCompatible\";b:0;s:8:\"boxLabel\";s:93:\"Wenn aktiv, dann werden Varianten per AJAX nachgeladen, statt die komplette Seite neuzuladen.\";}',0),(28,23,'theme-text-area-field','additionalCssData',0,'s:0:\"\";','N;','__additional_css_data__','__additional_css_data_description__',1,11,'a:2:{s:5:\"xtype\";s:8:\"textarea\";s:14:\"lessCompatible\";b:0;}',0),(29,23,'theme-text-area-field','additionalJsLibraries',0,'s:0:\"\";','N;','__additional_js_libraries__','__additional_js_libraries_description__',1,11,'a:2:{s:5:\"xtype\";s:8:\"textarea\";s:14:\"lessCompatible\";b:0;}',0),(30,23,'theme-color-picker','brand-primary',0,'s:7:\"#D9400B\";','N;','@brand-primary',NULL,1,15,'a:0:{}',1),(31,23,'theme-color-picker','brand-primary-light',0,'s:42:\"saturate(lighten(@brand-primary, 12%), 5%)\";','N;','@brand-primary-light',NULL,1,15,'a:0:{}',1),(32,23,'theme-color-picker','brand-secondary',0,'s:7:\"#5F7285\";','N;','@brand-secondary',NULL,1,15,'a:0:{}',1),(33,23,'theme-color-picker','brand-secondary-dark',0,'s:29:\"darken(@brand-secondary, 15%)\";','N;','@brand-secondary-dark',NULL,1,15,'a:0:{}',1),(34,23,'theme-color-picker','gray',0,'s:7:\"#F5F5F8\";','N;','@gray',NULL,1,16,'a:0:{}',1),(35,23,'theme-color-picker','gray-light',0,'s:18:\"lighten(@gray, 1%)\";','N;','@gray-light',NULL,1,16,'a:0:{}',1),(36,23,'theme-color-picker','gray-dark',0,'s:24:\"darken(@gray-light, 10%)\";','N;','@gray-dark',NULL,1,16,'a:0:{}',1),(37,23,'theme-color-picker','border-color',0,'s:10:\"@gray-dark\";','N;','@border-color',NULL,1,16,'a:0:{}',1),(38,23,'theme-color-picker','highlight-success',0,'s:7:\"#2ECC71\";','N;','@highlight-success',NULL,1,17,'a:0:{}',1),(39,23,'theme-color-picker','highlight-error',0,'s:7:\"#E74C3C\";','N;','@highlight-error',NULL,1,17,'a:0:{}',1),(40,23,'theme-color-picker','highlight-notice',0,'s:7:\"#F1C40F\";','N;','@highlight-notice',NULL,1,17,'a:0:{}',1),(41,23,'theme-color-picker','highlight-info',0,'s:7:\"#4AA3DF\";','N;','@highlight-info',NULL,1,17,'a:0:{}',1),(42,23,'theme-color-picker','body-bg',0,'s:23:\"darken(@gray-light, 5%)\";','N;','@body-bg',NULL,1,18,'a:0:{}',1),(43,23,'theme-color-picker','text-color',0,'s:16:\"@brand-secondary\";','N;','@text-color',NULL,1,18,'a:0:{}',1),(44,23,'theme-color-picker','text-color-dark',0,'s:21:\"@brand-secondary-dark\";','N;','@text-color-dark',NULL,1,18,'a:0:{}',1),(45,23,'theme-color-picker','link-color',0,'s:14:\"@brand-primary\";','N;','@link-color',NULL,1,18,'a:0:{}',1
+),(46,23,'theme-color-picker','link-hover-color',0,'s:24:\"darken(@link-color, 10%)\";','N;','@link-hover-color',NULL,1,18,'a:0:{}',1),(47,23,'theme-color-picker','rating-star-color',0,'s:17:\"@highlight-notice\";','N;','@rating-star-color',NULL,1,18,'a:0:{}',1),(48,23,'theme-color-picker','overlay-bg',0,'s:7:\"#000000\";','N;','@overlay-bg',NULL,1,18,'a:0:{}',1),(49,23,'theme-color-picker','overlay-opacity',0,'s:3:\"0.7\";','N;','@overlay-opacity',NULL,1,18,'a:0:{}',1),(50,23,'theme-text-field','font-base-stack',0,'s:77:\"\"Open Sans\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif;\";','N;','@font-base-stack',NULL,1,20,'a:0:{}',1),(51,23,'theme-text-field','font-headline-stack',0,'s:16:\"@font-base-stack\";','N;','@font-headline-stack',NULL,1,20,'a:0:{}',1),(52,23,'theme-text-field','font-size-base',0,'s:2:\"14\";','N;','@font-size-base',NULL,1,20,'a:0:{}',1),(53,23,'theme-text-field','font-base-weight',0,'s:3:\"500\";','N;','@font-base-weight',NULL,1,20,'a:0:{}',1),(54,23,'theme-text-field','font-light-weight',0,'s:3:\"300\";','N;','@font-light-weight',NULL,1,20,'a:0:{}',1),(55,23,'theme-text-field','font-bold-weight',0,'s:3:\"700\";','N;','@font-bold-weight',NULL,1,20,'a:0:{}',1),(56,23,'theme-text-field','font-size-h1',0,'s:2:\"26\";','N;','@font-size-h1',NULL,1,21,'a:0:{}',1),(57,23,'theme-text-field','font-size-h2',0,'s:2:\"21\";','N;','@font-size-h2',NULL,1,21,'a:0:{}',1),(58,23,'theme-text-field','font-size-h3',0,'s:2:\"18\";','N;','@font-size-h3',NULL,1,21,'a:0:{}',1),(59,23,'theme-text-field','font-size-h4',0,'s:2:\"16\";','N;','@font-size-h4',NULL,1,21,'a:0:{}',1),(60,23,'theme-text-field','font-size-h5',0,'s:15:\"@font-size-base\";','N;','@font-size-h5',NULL,1,21,'a:0:{}',1),(61,23,'theme-text-field','font-size-h6',0,'s:2:\"12\";','N;','@font-size-h6',NULL,1,21,'a:0:{}',1),(62,23,'theme-text-field','btn-font-size',0,'s:2:\"14\";','N;','@btn-font-size',NULL,1,23,'a:0:{}',1),(63,23,'theme-text-field','btn-icon-size',0,'s:2:\"10\";','N;','@btn-icon-size',NULL,1,23,'a:0:{}',1),(64,23,'theme-color-picker','btn-default-top-bg',0,'s:7:\"#FFFFFF\";','N;','@btn-default-top-bg',NULL,1,24,'a:0:{}',1),(65,23,'theme-color-picker','btn-default-bottom-bg',0,'s:11:\"@gray-light\";','N;','@btn-default-bottom-bg',NULL,1,24,'a:0:{}',1),(66,23,'theme-color-picker','btn-default-hover-bg',0,'s:7:\"#FFFFFF\";','N;','@btn-default-hover-bg',NULL,1,24,'a:0:{}',1),(67,23,'theme-color-picker','btn-default-text-color',0,'s:11:\"@text-color\";','N;','@btn-default-text-color',NULL,1,24,'a:0:{}',1),(68,23,'theme-color-picker','btn-default-hover-text-color',0,'s:14:\"@brand-primary\";','N;','@btn-default-hover-text-color',NULL,1,24,'a:0:{}',1),(69,23,'theme-color-picker','btn-default-border-color',0,'s:13:\"@border-color\";','N;','@btn-default-border-color',NULL,1,24,'a:0:{}',1),(70,23,'theme-color-picker','btn-default-hover-border-color',0,'s:14:\"@brand-primary\";','N;','@btn-default-hover-border-color',NULL,1,24,'a:0:{}',1),(71,23,'theme-color-picker','btn-primary-top-bg',0,'s:20:\"@brand-primary-light\";','N;','@btn-primary-top-bg',NULL,1,25,'a:0:{}',1),(72,23,'theme-color-picker','btn-primary-bottom-bg',0,'s:14:\"@brand-primary\";','N;','@btn-primary-bottom-bg',NULL,1,25,'a:0:{}',1),(73,23,'theme-color-picker','btn-primary-hover-bg',0,'s:14:\"@brand-primary\";','N;','@btn-primary-hover-bg',NULL,1,25,'a:0:{}',1),(74,23,'theme-color-picker','btn-primary-text-color',0,'s:7:\"#FFFFFF\";','N;','@btn-primary-text-color',NULL,1,25,'a:0:{}',1),(75,23,'theme-color-picker','btn-primary-hover-text-color',0,'s:23:\"@btn-primary-text-color\";','N;','@btn-primary-hover-text-color',NULL,1,25,'a:0:{}',1),(76,23,'theme-color-picker','btn-secondary-top-bg',0,'s:16:\"@brand-secondary\";','N;','@btn-secondary-top-bg',NULL,1,26,'a:0:{}',1),(77,23,'theme-color-picker','btn-secondary-bottom-bg',0,'s:21:\"@brand-secondary-dark\";','N;','@btn-secondary-bottom-bg',NULL,1,26,'a:0:{}',1),(78,23,'theme-color-picker','btn-secondary-hover-bg',0,'s:21:\"@brand-secondary-dark\";','N;','@btn-secondary-hover-bg',NULL,1,26,'a:0:{}',1),(79,23,'theme-
+color-picker','btn-secondary-text-color',0,'s:7:\"#FFFFFF\";','N;','@btn-secondary-text-color',NULL,1,26,'a:0:{}',1),(80,23,'theme-color-picker','btn-secondary-hover-text-color',0,'s:25:\"@btn-secondary-text-color\";','N;','@btn-secondary-hover-text-color',NULL,1,26,'a:0:{}',1),(81,23,'theme-color-picker','panel-header-bg',0,'s:11:\"@gray-light\";','N;','@panel-header-bg',NULL,1,27,'a:0:{}',1),(82,23,'theme-text-field','panel-header-font-size',0,'s:2:\"14\";','N;','@panel-header-font-size',NULL,1,27,'a:0:{}',1),(83,23,'theme-color-picker','panel-header-color',0,'s:11:\"@text-color\";','N;','@panel-header-color',NULL,1,27,'a:0:{}',1),(84,23,'theme-color-picker','panel-border',0,'s:13:\"@border-color\";','N;','@panel-border',NULL,1,27,'a:0:{}',1),(85,23,'theme-color-picker','panel-bg',0,'s:7:\"#FFFFFF\";','N;','@panel-bg',NULL,1,27,'a:0:{}',1),(86,23,'theme-text-field','label-font-size',0,'s:2:\"14\";','N;','@label-font-size',NULL,1,29,'a:0:{}',1),(87,23,'theme-color-picker','label-color',0,'s:11:\"@text-color\";','N;','@label-color',NULL,1,29,'a:0:{}',1),(88,23,'theme-text-field','input-font-size',0,'s:2:\"14\";','N;','@input-font-size',NULL,1,30,'a:0:{}',1),(89,23,'theme-color-picker','input-bg',0,'s:11:\"@gray-light\";','N;','@input-bg',NULL,1,30,'a:0:{}',1),(90,23,'theme-color-picker','input-color',0,'s:16:\"@brand-secondary\";','N;','@input-color',NULL,1,30,'a:0:{}',1),(91,23,'theme-color-picker','input-placeholder-color',0,'s:25:\"lighten(@text-color, 15%)\";','N;','@input-placeholder-color',NULL,1,30,'a:0:{}',1),(92,23,'theme-color-picker','input-border',0,'s:13:\"@border-color\";','N;','@input-border',NULL,1,30,'a:0:{}',1),(93,23,'theme-color-picker','input-focus-bg',0,'s:7:\"#FFFFFF\";','N;','@input-focus-bg',NULL,1,31,'a:0:{}',1),(94,23,'theme-color-picker','input-focus-border',0,'s:14:\"@brand-primary\";','N;','@input-focus-border',NULL,1,31,'a:0:{}',1),(95,23,'theme-color-picker','input-focus-color',0,'s:16:\"@brand-secondary\";','N;','@input-focus-color',NULL,1,31,'a:0:{}',1),(96,23,'theme-color-picker','input-error-bg',0,'s:47:\"desaturate(lighten(@highlight-error, 38%), 20%)\";','N;','@input-error-bg',NULL,1,31,'a:0:{}',1),(97,23,'theme-color-picker','input-error-border',0,'s:16:\"@highlight-error\";','N;','@input-error-border',NULL,1,31,'a:0:{}',1),(98,23,'theme-color-picker','input-error-color',0,'s:16:\"@highlight-error\";','N;','@input-error-color',NULL,1,31,'a:0:{}',1),(99,23,'theme-color-picker','input-success-bg',0,'s:7:\"#FFFFFF\";','N;','@input-success-bg',NULL,1,31,'a:0:{}',1),(100,23,'theme-color-picker','input-success-border',0,'s:18:\"@highlight-success\";','N;','@input-success-border',NULL,1,31,'a:0:{}',1),(101,23,'theme-color-picker','input-success-color',0,'s:21:\"@brand-secondary-dark\";','N;','@input-success-color',NULL,1,31,'a:0:{}',1),(102,23,'theme-color-picker','panel-table-header-bg',0,'s:9:\"@panel-bg\";','N;','@panel-table-header-bg',NULL,1,33,'a:0:{}',1),(103,23,'theme-color-picker','panel-table-header-color',0,'s:16:\"@text-color-dark\";','N;','@panel-table-header-color',NULL,1,33,'a:0:{}',1),(104,23,'theme-color-picker','table-row-bg',0,'s:7:\"#FFFFFF\";','N;','@table-row-bg',NULL,1,33,'a:0:{}',1),(105,23,'theme-color-picker','table-row-color',0,'s:16:\"@brand-secondary\";','N;','@table-row-color',NULL,1,33,'a:0:{}',1),(106,23,'theme-color-picker','table-row-highlight-bg',0,'s:25:\"darken(@table-row-bg, 4%)\";','N;','@table-row-highlight-bg',NULL,1,33,'a:0:{}',1),(107,23,'theme-color-picker','table-header-bg',0,'s:16:\"@brand-secondary\";','N;','@table-header-bg',NULL,1,33,'a:0:{}',1),(108,23,'theme-color-picker','table-header-color',0,'s:7:\"#FFFFFF\";','N;','@table-header-color',NULL,1,33,'a:0:{}',1),(109,23,'theme-color-picker','badge-discount-bg',0,'s:16:\"@highlight-error\";','N;','@badge-discount-bg',NULL,1,34,'a:0:{}',1),(110,23,'theme-color-picker','badge-discount-color',0,'s:7:\"#FFFFFF\";','N;','@badge-discount-color',NULL,1,34,'a:0:{}',1),(111,23,'theme-color-picker','badge-newcomer-bg',0,'s:17:\"@highlight-notice\";','N;','@badge-newcomer-bg',NULL,1,34,'a:0:{}',1),(112
+,23,'theme-color-picker','badge-newcomer-color',0,'s:7:\"#FFFFFF\";','N;','@badge-newcomer-color',NULL,1,34,'a:0:{}',1),(113,23,'theme-color-picker','badge-recommendation-bg',0,'s:18:\"@highlight-success\";','N;','@badge-recommendation-bg',NULL,1,34,'a:0:{}',1),(114,23,'theme-color-picker','badge-recommendation-color',0,'s:7:\"#FFFFFF\";','N;','@badge-recommendation-color',NULL,1,34,'a:0:{}',1),(115,23,'theme-color-picker','badge-download-bg',0,'s:15:\"@highlight-info\";','N;','@badge-download-bg',NULL,1,34,'a:0:{}',1),(116,23,'theme-color-picker','badge-download-color',0,'s:7:\"#FFFFFF\";','N;','@badge-download-color',NULL,1,34,'a:0:{}',1);
+/*!40000 ALTER TABLE `s_core_templates_config_elements` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `s_core_templates_config_layout`
+--
+
+DROP TABLE IF EXISTS `s_core_templates_config_layout`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_core_templates_config_layout` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) DEFAULT NULL,
+  `template_id` int(11) NOT NULL,
+  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `attributes` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_core_templates_config_layout`
+--
+
+LOCK TABLES `s_core_templates_config_layout` WRITE;
+/*!40000 ALTER TABLE `s_core_templates_config_layout` DISABLE KEYS */;
+INSERT INTO `s_core_templates_config_layout` VALUES (1,NULL,22,'theme-tab-panel','main_container',NULL,'a:0:{}'),(2,1,22,'theme-tab','bareMain','__bare_tab_header__','a:3:{s:6:\"layout\";s:6:\"anchor\";s:10:\"autoScroll\";b:1;s:7:\"padding\";s:1:\"0\";}'),(3,2,22,'theme-field-set','bareLogos','__logos__','a:4:{s:7:\"padding\";s:2:\"10\";s:6:\"margin\";s:1:\"5\";s:6:\"layout\";s:6:\"anchor\";s:8:\"defaults\";a:2:{s:10:\"labelWidth\";i:155;s:6:\"anchor\";s:4:\"100%\";}}'),(4,2,22,'theme-field-set','Icons','__icons__','a:4:{s:7:\"padding\";s:2:\"10\";s:6:\"margin\";s:1:\"5\";s:6:\"layout\";s:6:\"anchor\";s:8:\"defaults\";a:2:{s:10:\"labelWidth\";i:155;s:6:\"anchor\";s:4:\"100%\";}}'),(5,NULL,23,'theme-tab-panel','main_container',NULL,'a:0:{}'),(6,5,23,'theme-tab','bareMain','__bare_tab_header__','a:3:{s:6:\"layout\";s:6:\"anchor\";s:10:\"autoScroll\";b:1;s:7:\"padding\";s:1:\"0\";}'),(7,6,23,'theme-field-set','bareLogos','__logos__','a:4:{s:7:\"padding\";s:2:\"10\";s:6:\"margin\";s:1:\"5\";s:6:\"layout\";s:6:\"anchor\";s:8:\"defaults\";a:2:{s:10:\"labelWidth\";i:155;s:6:\"anchor\";s:4:\"100%\";}}'),(8,6,23,'theme-field-set','Icons','__icons__','a:4:{s:7:\"padding\";s:2:\"10\";s:6:\"margin\";s:1:\"5\";s:6:\"layout\";s:6:\"anchor\";s:8:\"defaults\";a:2:{s:10:\"labelWidth\";i:155;s:6:\"anchor\";s:4:\"100%\";}}'),(9,5,23,'theme-tab','responsiveMain','__responsive_tab_header__','a:4:{s:6:\"layout\";s:6:\"anchor\";s:10:\"autoScroll\";b:1;s:7:\"padding\";s:1:\"0\";s:8:\"defaults\";a:1:{s:6:\"anchor\";s:4:\"100%\";}}'),(10,9,23,'theme-field-set','bareGlobal','__global_configuration__','a:4:{s:7:\"padding\";s:2:\"10\";s:6:\"margin\";s:1:\"5\";s:6:\"layout\";s:6:\"anchor\";s:8:\"defaults\";a:2:{s:10:\"labelWidth\";i:155;s:6:\"anchor\";s:4:\"100%\";}}'),(11,9,23,'theme-field-set','responsiveGlobal','__advanced_settings__','a:4:{s:7:\"padding\";s:2:\"10\";s:6:\"margin\";s:1:\"5\";s:6:\"layout\";s:6:\"anchor\";s:8:\"defaults\";a:2:{s:6:\"anchor\";s:4:\"100%\";s:10:\"labelWidth\";i:155;}}'),(12,5,23,'theme-tab','responsive_tab','__responsive_colors__','a:0:{}'),(13,12,23,'theme-tab-panel','bottom_tab_panel',NULL,'a:1:{s:5:\"plain\";b:1;}'),(14,13,23,'theme-tab','general_tab','__responsive_tab_general__','a:1:{s:10:\"autoScroll\";b:1;}'),(15,14,23,'theme-field-set','basic_field_set','__responsive_tab_general_fieldset_base__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:130;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(16,14,23,'theme-field-set','grey_tones','__responsive_tab_general_fieldset_grey__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:130;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(17,14,23,'theme-field-set','highlight_colors','__responsive_tab_general_fieldset_highlight__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:130;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(18,14,23,'theme-field-set','scaffolding','__responsive_tab_general_fieldset_scaffolding__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:200;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(19,13,23,'theme-tab','typo_tab','__responsive_tab_typo__','a:1:{s:10:\"autoScroll\";b:1;}'),(20,19,23,'theme-field-set','typo_base','__responsive_tab_typo_fieldset_base__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:170;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(21,19,23,'theme-field-set','typo_headlines','__responsive_tab_typo_fieldset_headlines__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:170;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(22,13,23,'theme-tab','buttons_tab','__responsive_tab_buttons__','a:1:{s:10:\"autoScroll\";b:1;}'
+),(23,22,23,'theme-field-set','buttons_fieldset','__responsive_tab_buttons_fieldset_global__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:90;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(24,22,23,'theme-field-set','buttons_default_fieldset','__responsive_tab_buttons_fieldset_default__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:200;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(25,22,23,'theme-field-set','buttons_primary_fieldset','__responsive_tab_buttons_fieldset_primary__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:170;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(26,22,23,'theme-field-set','buttons_secondary_fieldset','__responsive_tab_buttons_fieldset_secondary__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:170;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(27,22,23,'theme-field-set','panels_fieldset','__responsive_tab_buttons_fieldset_panels__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:170;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(28,13,23,'theme-tab','forms_tab','__responsive_tab_forms__','a:1:{s:10:\"autoScroll\";b:1;}'),(29,28,23,'theme-field-set','labels_fieldset','__responsive_tab_forms_fieldset_labels__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:90;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(30,28,23,'theme-field-set','form_base_fieldset','__responsive_tab_forms_fieldset_global__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:160;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(31,28,23,'theme-field-set','form_states_fieldset','__responsive_tab_forms_fieldset_states__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:240;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(32,13,23,'theme-tab','tables_tab','__responsive_tab_tables__','a:1:{s:10:\"autoScroll\";b:1;}'),(33,32,23,'theme-field-set','tables_fieldset','__responsive_tab_tables_fieldset_tables__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:200;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}'),(34,32,23,'theme-field-set','badges_fieldset','__responsive_tab_tables_fieldset_badges__','a:4:{s:6:\"layout\";s:6:\"column\";s:6:\"height\";i:200;s:4:\"flex\";i:0;s:8:\"defaults\";a:3:{s:11:\"columnWidth\";d:0.5;s:10:\"labelWidth\";i:180;s:6:\"margin\";s:8:\"3 16 3 0\";}}');
+/*!40000 ALTER TABLE `s_core_templates_config_layout` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `s_core_templates_config_set`
+--
+
+DROP TABLE IF EXISTS `s_core_templates_config_set`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_core_templates_config_set` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `template_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `element_values` text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `template_id` (`template_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_core_templates_config_set`
+--
+
+LOCK TABLES `s_core_templates_config_set` WRITE;
+/*!40000 ALTER TABLE `s_core_templates_config_set` DISABLE KEYS */;
+INSERT INTO `s_core_templates_config_set` VALUES (1,22,'__bare_min_appearance__','__bare_min_appearance_description__','a:1:{s:5:\"color\";s:4:\"#fff\";}'),(2,22,'__bare_max_appearance__','__bare_max_appearance_description__','a:1:{s:5:\"color\";s:4:\"#fff\";}'),(3,23,'__color_scheme_turquoise__','__color_scheme_turquoise_description__','a:70:{s:13:\"brand-primary\";s:7:\"#1db3b8\";s:19:\"brand-primary-light\";s:27:\"lighten(@brand-primary, 5%)\";s:15:\"brand-secondary\";s:7:\"#5F7285\";s:20:\"brand-secondary-dark\";s:29:\"darken(@brand-secondary, 15%)\";s:4:\"gray\";s:7:\"#F5F5F8\";s:10:\"gray-light\";s:18:\"lighten(@gray, 1%)\";s:9:\"gray-dark\";s:24:\"darken(@gray-light, 10%)\";s:12:\"border-color\";s:10:\"@gray-dark\";s:17:\"highlight-success\";s:7:\"#2ECC71\";s:15:\"highlight-error\";s:7:\"#E74C3C\";s:16:\"highlight-notice\";s:7:\"#F1C40F\";s:14:\"highlight-info\";s:7:\"#4AA3DF\";s:7:\"body-bg\";s:23:\"darken(@gray-light, 5%)\";s:10:\"overlay-bg\";s:7:\"#000000\";s:15:\"overlay-opacity\";s:3:\"0.7\";s:10:\"text-color\";s:16:\"@brand-secondary\";s:15:\"text-color-dark\";s:21:\"@brand-secondary-dark\";s:10:\"link-color\";s:14:\"@brand-primary\";s:16:\"link-hover-color\";s:24:\"darken(@link-color, 10%)\";s:17:\"rating-star-color\";s:17:\"@highlight-notice\";s:18:\"btn-default-top-bg\";s:7:\"#FFFFFF\";s:21:\"btn-default-bottom-bg\";s:11:\"@gray-light\";s:20:\"btn-default-hover-bg\";s:7:\"#FFFFFF\";s:22:\"btn-default-text-color\";s:11:\"@text-color\";s:28:\"btn-default-hover-text-color\";s:14:\"@brand-primary\";s:24:\"btn-default-border-color\";s:13:\"@border-color\";s:30:\"btn-default-hover-border-color\";s:14:\"@brand-primary\";s:18:\"btn-primary-top-bg\";s:20:\"@brand-primary-light\";s:21:\"btn-primary-bottom-bg\";s:14:\"@brand-primary\";s:20:\"btn-primary-hover-bg\";s:14:\"@brand-primary\";s:22:\"btn-primary-text-color\";s:7:\"#FFFFFF\";s:28:\"btn-primary-hover-text-color\";s:23:\"@btn-primary-text-color\";s:20:\"btn-secondary-top-bg\";s:16:\"@brand-secondary\";s:23:\"btn-secondary-bottom-bg\";s:21:\"@brand-secondary-dark\";s:22:\"btn-secondary-hover-bg\";s:21:\"@brand-secondary-dark\";s:24:\"btn-secondary-text-color\";s:7:\"#FFFFFF\";s:30:\"btn-secondary-hover-text-color\";s:25:\"@btn-secondary-text-color\";s:15:\"panel-header-bg\";s:11:\"@gray-light\";s:18:\"panel-header-color\";s:11:\"@text-color\";s:12:\"panel-border\";s:13:\"@border-color\";s:8:\"panel-bg\";s:7:\"#FFFFFF\";s:11:\"label-color\";s:11:\"@text-color\";s:8:\"input-bg\";s:11:\"@gray-light\";s:11:\"input-color\";s:16:\"@brand-secondary\";s:23:\"input-placeholder-color\";s:25:\"lighten(@text-color, 15%)\";s:12:\"input-border\";s:13:\"@border-color\";s:14:\"input-focus-bg\";s:7:\"#FFFFFF\";s:18:\"input-focus-border\";s:14:\"@brand-primary\";s:17:\"input-focus-color\";s:16:\"@brand-secondary\";s:14:\"input-error-bg\";s:47:\"desaturate(lighten(@highlight-error, 38%), 20%)\";s:18:\"input-error-border\";s:16:\"@highlight-error\";s:17:\"input-error-color\";s:16:\"@highlight-error\";s:16:\"input-success-bg\";s:7:\"#FFFFFF\";s:20:\"input-success-border\";s:18:\"@highlight-success\";s:19:\"input-success-color\";s:21:\"@brand-secondary-dark\";s:21:\"panel-table-header-bg\";s:9:\"@panel-bg\";s:24:\"panel-table-header-color\";s:16:\"@text-color-dark\";s:12:\"table-row-bg\";s:7:\"#FFFFFF\";s:15:\"table-row-color\";s:16:\"@brand-secondary\";s:22:\"table-row-highlight-bg\";s:25:\"darken(@table-row-bg, 4%)\";s:15:\"table-header-bg\";s:16:\"@brand-secondary\";s:18:\"table-header-color\";s:7:\"#FFFFFF\";s:17:\"badge-discount-bg\";s:16:\"@highlight-error\";s:20:\"badge-discount-color\";s:7:\"#FFFFFF\";s:17:\"badge-newcomer-bg\";s:17:\"@highlight-notice\";s:20:\"badge-newcomer-color\";s:7:\"#FFFFFF\";s:23:\"badge-recommendation-bg\";s:18:\"@highlight-success\";s:26:\"badge-recommendation-color\";s:7:\"#FFFFFF\";s:17:\"badge-download-bg\";s:15:\"@highlight-info\";s:20:\"badge-download-color\";s:7:\"#FFFFFF\";}'),(4,23,'__color_scheme_green__','__color_scheme_green_description__','a:70:{s:13:\"brand-primary\";s:7:\"#72a425\";s:19:\"brand-primary-light\";s:41:\"saturate(light
+en(@brand-primary, 5%), 5%)\";s:15:\"brand-secondary\";s:7:\"#5F7285\";s:20:\"brand-secondary-dark\";s:29:\"darken(@brand-secondary, 15%)\";s:4:\"gray\";s:7:\"#F5F5F8\";s:10:\"gray-light\";s:18:\"lighten(@gray, 1%)\";s:9:\"gray-dark\";s:24:\"darken(@gray-light, 10%)\";s:12:\"border-color\";s:10:\"@gray-dark\";s:17:\"highlight-success\";s:7:\"#2ECC71\";s:15:\"highlight-error\";s:7:\"#E74C3C\";s:16:\"highlight-notice\";s:7:\"#F1C40F\";s:14:\"highlight-info\";s:7:\"#4AA3DF\";s:7:\"body-bg\";s:23:\"darken(@gray-light, 5%)\";s:10:\"overlay-bg\";s:7:\"#000000\";s:15:\"overlay-opacity\";s:3:\"0.7\";s:10:\"text-color\";s:16:\"@brand-secondary\";s:15:\"text-color-dark\";s:21:\"@brand-secondary-dark\";s:10:\"link-color\";s:14:\"@brand-primary\";s:16:\"link-hover-color\";s:24:\"darken(@link-color, 10%)\";s:17:\"rating-star-color\";s:17:\"@highlight-notice\";s:18:\"btn-default-top-bg\";s:7:\"#FFFFFF\";s:21:\"btn-default-bottom-bg\";s:11:\"@gray-light\";s:20:\"btn-default-hover-bg\";s:7:\"#FFFFFF\";s:22:\"btn-default-text-color\";s:11:\"@text-color\";s:28:\"btn-default-hover-text-color\";s:14:\"@brand-primary\";s:24:\"btn-default-border-color\";s:13:\"@border-color\";s:30:\"btn-default-hover-border-color\";s:14:\"@brand-primary\";s:18:\"btn-primary-top-bg\";s:20:\"@brand-primary-light\";s:21:\"btn-primary-bottom-bg\";s:14:\"@brand-primary\";s:20:\"btn-primary-hover-bg\";s:14:\"@brand-primary\";s:22:\"btn-primary-text-color\";s:7:\"#FFFFFF\";s:28:\"btn-primary-hover-text-color\";s:23:\"@btn-primary-text-color\";s:20:\"btn-secondary-top-bg\";s:16:\"@brand-secondary\";s:23:\"btn-secondary-bottom-bg\";s:21:\"@brand-secondary-dark\";s:22:\"btn-secondary-hover-bg\";s:21:\"@brand-secondary-dark\";s:24:\"btn-secondary-text-color\";s:7:\"#FFFFFF\";s:30:\"btn-secondary-hover-text-color\";s:25:\"@btn-secondary-text-color\";s:15:\"panel-header-bg\";s:11:\"@gray-light\";s:18:\"panel-header-color\";s:11:\"@text-color\";s:12:\"panel-border\";s:13:\"@border-color\";s:8:\"panel-bg\";s:7:\"#FFFFFF\";s:11:\"label-color\";s:11:\"@text-color\";s:8:\"input-bg\";s:11:\"@gray-light\";s:11:\"input-color\";s:16:\"@brand-secondary\";s:23:\"input-placeholder-color\";s:25:\"lighten(@text-color, 15%)\";s:12:\"input-border\";s:13:\"@border-color\";s:14:\"input-focus-bg\";s:7:\"#FFFFFF\";s:18:\"input-focus-border\";s:14:\"@brand-primary\";s:17:\"input-focus-color\";s:16:\"@brand-secondary\";s:14:\"input-error-bg\";s:47:\"desaturate(lighten(@highlight-error, 38%), 20%)\";s:18:\"input-error-border\";s:16:\"@highlight-error\";s:17:\"input-error-color\";s:16:\"@highlight-error\";s:16:\"input-success-bg\";s:7:\"#FFFFFF\";s:20:\"input-success-border\";s:18:\"@highlight-success\";s:19:\"input-success-color\";s:21:\"@brand-secondary-dark\";s:21:\"panel-table-header-bg\";s:9:\"@panel-bg\";s:24:\"panel-table-header-color\";s:16:\"@text-color-dark\";s:12:\"table-row-bg\";s:7:\"#FFFFFF\";s:15:\"table-row-color\";s:16:\"@brand-secondary\";s:22:\"table-row-highlight-bg\";s:25:\"darken(@table-row-bg, 4%)\";s:15:\"table-header-bg\";s:16:\"@brand-secondary\";s:18:\"table-header-color\";s:7:\"#FFFFFF\";s:17:\"badge-discount-bg\";s:16:\"@highlight-error\";s:20:\"badge-discount-color\";s:7:\"#FFFFFF\";s:17:\"badge-newcomer-bg\";s:17:\"@highlight-notice\";s:20:\"badge-newcomer-color\";s:7:\"#FFFFFF\";s:23:\"badge-recommendation-bg\";s:18:\"@highlight-success\";s:26:\"badge-recommendation-color\";s:7:\"#FFFFFF\";s:17:\"badge-download-bg\";s:15:\"@highlight-info\";s:20:\"badge-download-color\";s:7:\"#FFFFFF\";}'),(5,23,'__color_scheme_red__','__color_scheme_red_description__','a:70:{s:13:\"brand-primary\";s:7:\"#be0a30\";s:19:\"brand-primary-light\";s:42:\"saturate(lighten(@brand-primary, 10%), 5%)\";s:15:\"brand-secondary\";s:7:\"#5F7285\";s:20:\"brand-secondary-dark\";s:29:\"darken(@brand-secondary, 15%)\";s:4:\"gray\";s:7:\"#F5F5F8\";s:10:\"gray-light\";s:18:\"lighten(@gray, 1%)\";s:9:\"gray-dark\";s:24:\"darken(@gray-light, 10%)\";s:12:\"border-color\";s:10:\"@gray-dark\";s:17:\"highlight-success\";s:7:\"#2ECC71\";s:15:\"highlight-error\";s:7:\"#E74C3C\";s:16:\"highlight-notice\";s:7
+:\"#F1C40F\";s:14:\"highlight-info\";s:7:\"#4AA3DF\";s:7:\"body-bg\";s:23:\"darken(@gray-light, 5%)\";s:10:\"overlay-bg\";s:7:\"#000000\";s:15:\"overlay-opacity\";s:3:\"0.7\";s:10:\"text-color\";s:16:\"@brand-secondary\";s:15:\"text-color-dark\";s:21:\"@brand-secondary-dark\";s:10:\"link-color\";s:14:\"@brand-primary\";s:16:\"link-hover-color\";s:24:\"darken(@link-color, 10%)\";s:17:\"rating-star-color\";s:17:\"@highlight-notice\";s:18:\"btn-default-top-bg\";s:7:\"#FFFFFF\";s:21:\"btn-default-bottom-bg\";s:11:\"@gray-light\";s:20:\"btn-default-hover-bg\";s:7:\"#FFFFFF\";s:22:\"btn-default-text-color\";s:11:\"@text-color\";s:28:\"btn-default-hover-text-color\";s:14:\"@brand-primary\";s:24:\"btn-default-border-color\";s:13:\"@border-color\";s:30:\"btn-default-hover-border-color\";s:14:\"@brand-primary\";s:18:\"btn-primary-top-bg\";s:20:\"@brand-primary-light\";s:21:\"btn-primary-bottom-bg\";s:14:\"@brand-primary\";s:20:\"btn-primary-hover-bg\";s:14:\"@brand-primary\";s:22:\"btn-primary-text-color\";s:7:\"#FFFFFF\";s:28:\"btn-primary-hover-text-color\";s:23:\"@btn-primary-text-color\";s:20:\"btn-secondary-top-bg\";s:16:\"@brand-secondary\";s:23:\"btn-secondary-bottom-bg\";s:21:\"@brand-secondary-dark\";s:22:\"btn-secondary-hover-bg\";s:21:\"@brand-secondary-dark\";s:24:\"btn-secondary-text-color\";s:7:\"#FFFFFF\";s:30:\"btn-secondary-hover-text-color\";s:25:\"@btn-secondary-text-color\";s:15:\"panel-header-bg\";s:11:\"@gray-light\";s:18:\"panel-header-color\";s:11:\"@text-color\";s:12:\"panel-border\";s:13:\"@border-color\";s:8:\"panel-bg\";s:7:\"#FFFFFF\";s:11:\"label-color\";s:11:\"@text-color\";s:8:\"input-bg\";s:11:\"@gray-light\";s:11:\"input-color\";s:16:\"@brand-secondary\";s:23:\"input-placeholder-color\";s:25:\"lighten(@text-color, 15%)\";s:12:\"input-border\";s:13:\"@border-color\";s:14:\"input-focus-bg\";s:7:\"#FFFFFF\";s:18:\"input-focus-border\";s:14:\"@brand-primary\";s:17:\"input-focus-color\";s:16:\"@brand-secondary\";s:14:\"input-error-bg\";s:47:\"desaturate(lighten(@highlight-error, 38%), 20%)\";s:18:\"input-error-border\";s:16:\"@highlight-error\";s:17:\"input-error-color\";s:16:\"@highlight-error\";s:16:\"input-success-bg\";s:7:\"#FFFFFF\";s:20:\"input-success-border\";s:18:\"@highlight-success\";s:19:\"input-success-color\";s:21:\"@brand-secondary-dark\";s:21:\"panel-table-header-bg\";s:9:\"@panel-bg\";s:24:\"panel-table-header-color\";s:16:\"@text-color-dark\";s:12:\"table-row-bg\";s:7:\"#FFFFFF\";s:15:\"table-row-color\";s:16:\"@brand-secondary\";s:22:\"table-row-highlight-bg\";s:25:\"darken(@table-row-bg, 4%)\";s:15:\"table-header-bg\";s:16:\"@brand-secondary\";s:18:\"table-header-color\";s:7:\"#FFFFFF\";s:17:\"badge-discount-bg\";s:16:\"@highlight-error\";s:20:\"badge-discount-color\";s:7:\"#FFFFFF\";s:17:\"badge-newcomer-bg\";s:17:\"@highlight-notice\";s:20:\"badge-newcomer-color\";s:7:\"#FFFFFF\";s:23:\"badge-recommendation-bg\";s:18:\"@highlight-success\";s:26:\"badge-recommendation-color\";s:7:\"#FFFFFF\";s:17:\"badge-download-bg\";s:15:\"@highlight-info\";s:20:\"badge-download-color\";s:7:\"#FFFFFF\";}'),(6,23,'__color_scheme_pink__','__color_scheme_pink_description__','a:70:{s:13:\"brand-primary\";s:7:\"#d31e81\";s:19:\"brand-primary-light\";s:41:\"saturate(lighten(@brand-primary,12%), 5%)\";s:15:\"brand-secondary\";s:7:\"#5F7285\";s:20:\"brand-secondary-dark\";s:29:\"darken(@brand-secondary, 15%)\";s:4:\"gray\";s:7:\"#F5F5F8\";s:10:\"gray-light\";s:18:\"lighten(@gray, 1%)\";s:9:\"gray-dark\";s:24:\"darken(@gray-light, 10%)\";s:12:\"border-color\";s:10:\"@gray-dark\";s:17:\"highlight-success\";s:7:\"#2ECC71\";s:15:\"highlight-error\";s:7:\"#E74C3C\";s:16:\"highlight-notice\";s:7:\"#F1C40F\";s:14:\"highlight-info\";s:7:\"#4AA3DF\";s:7:\"body-bg\";s:23:\"darken(@gray-light, 5%)\";s:10:\"overlay-bg\";s:7:\"#000000\";s:15:\"overlay-opacity\";s:3:\"0.7\";s:10:\"text-color\";s:16:\"@brand-secondary\";s:15:\"text-color-dark\";s:21:\"@brand-secondary-dark\";s:10:\"link-color\";s:14:\"@brand-primary\";s:16:\"link-hover-color\";s:24:\"darken(@link-color, 10%)\";s:17:\"rating-star-color\";s:17:\"@highlig
+ht-notice\";s:18:\"btn-default-top-bg\";s:7:\"#FFFFFF\";s:21:\"btn-default-bottom-bg\";s:11:\"@gray-light\";s:20:\"btn-default-hover-bg\";s:7:\"#FFFFFF\";s:22:\"btn-default-text-color\";s:11:\"@text-color\";s:28:\"btn-default-hover-text-color\";s:14:\"@brand-primary\";s:24:\"btn-default-border-color\";s:13:\"@border-color\";s:30:\"btn-default-hover-border-color\";s:14:\"@brand-primary\";s:18:\"btn-primary-top-bg\";s:20:\"@brand-primary-light\";s:21:\"btn-primary-bottom-bg\";s:14:\"@brand-primary\";s:20:\"btn-primary-hover-bg\";s:14:\"@brand-primary\";s:22:\"btn-primary-text-color\";s:7:\"#FFFFFF\";s:28:\"btn-primary-hover-text-color\";s:23:\"@btn-primary-text-color\";s:20:\"btn-secondary-top-bg\";s:16:\"@brand-secondary\";s:23:\"btn-secondary-bottom-bg\";s:21:\"@brand-secondary-dark\";s:22:\"btn-secondary-hover-bg\";s:21:\"@brand-secondary-dark\";s:24:\"btn-secondary-text-color\";s:7:\"#FFFFFF\";s:30:\"btn-secondary-hover-text-color\";s:25:\"@btn-secondary-text-color\";s:15:\"panel-header-bg\";s:11:\"@gray-light\";s:18:\"panel-header-color\";s:11:\"@text-color\";s:12:\"panel-border\";s:13:\"@border-color\";s:8:\"panel-bg\";s:7:\"#FFFFFF\";s:11:\"label-color\";s:11:\"@text-color\";s:8:\"input-bg\";s:11:\"@gray-light\";s:11:\"input-color\";s:16:\"@brand-secondary\";s:23:\"input-placeholder-color\";s:25:\"lighten(@text-color, 15%)\";s:12:\"input-border\";s:13:\"@border-color\";s:14:\"input-focus-bg\";s:7:\"#FFFFFF\";s:18:\"input-focus-border\";s:14:\"@brand-primary\";s:17:\"input-focus-color\";s:16:\"@brand-secondary\";s:14:\"input-error-bg\";s:47:\"desaturate(lighten(@highlight-error, 38%), 20%)\";s:18:\"input-error-border\";s:16:\"@highlight-error\";s:17:\"input-error-color\";s:16:\"@highlight-error\";s:16:\"input-success-bg\";s:7:\"#FFFFFF\";s:20:\"input-success-border\";s:18:\"@highlight-success\";s:19:\"input-success-color\";s:21:\"@brand-secondary-dark\";s:21:\"panel-table-header-bg\";s:9:\"@panel-bg\";s:24:\"panel-table-header-color\";s:16:\"@text-color-dark\";s:12:\"table-row-bg\";s:7:\"#FFFFFF\";s:15:\"table-row-color\";s:16:\"@brand-secondary\";s:22:\"table-row-highlight-bg\";s:25:\"darken(@table-row-bg, 4%)\";s:15:\"table-header-bg\";s:16:\"@brand-secondary\";s:18:\"table-header-color\";s:7:\"#FFFFFF\";s:17:\"badge-discount-bg\";s:16:\"@highlight-error\";s:20:\"badge-discount-color\";s:7:\"#FFFFFF\";s:17:\"badge-newcomer-bg\";s:17:\"@highlight-notice\";s:20:\"badge-newcomer-color\";s:7:\"#FFFFFF\";s:23:\"badge-recommendation-bg\";s:18:\"@highlight-success\";s:26:\"badge-recommendation-color\";s:7:\"#FFFFFF\";s:17:\"badge-download-bg\";s:15:\"@highlight-info\";s:20:\"badge-download-color\";s:7:\"#FFFFFF\";}'),(7,23,'__color_scheme_gray__','__color_scheme_gray_description__','a:70:{s:13:\"brand-primary\";s:7:\"#555555\";s:19:\"brand-primary-light\";s:28:\"lighten(@brand-primary, 10%)\";s:15:\"brand-secondary\";s:7:\"#999999\";s:20:\"brand-secondary-dark\";s:28:\"darken(@brand-secondary, 8%)\";s:4:\"gray\";s:7:\"#F5F5F8\";s:10:\"gray-light\";s:18:\"lighten(@gray, 1%)\";s:9:\"gray-dark\";s:24:\"darken(@gray-light, 10%)\";s:12:\"border-color\";s:10:\"@gray-dark\";s:17:\"highlight-success\";s:7:\"#2ECC71\";s:15:\"highlight-error\";s:7:\"#E74C3C\";s:16:\"highlight-notice\";s:7:\"#F1C40F\";s:14:\"highlight-info\";s:7:\"#4AA3DF\";s:7:\"body-bg\";s:23:\"darken(@gray-light, 5%)\";s:10:\"overlay-bg\";s:7:\"#000000\";s:15:\"overlay-opacity\";s:3:\"0.7\";s:10:\"text-color\";s:20:\"@brand-primary-light\";s:15:\"text-color-dark\";s:14:\"@brand-primary\";s:10:\"link-color\";s:16:\"@brand-secondary\";s:16:\"link-hover-color\";s:24:\"darken(@link-color, 10%)\";s:17:\"rating-star-color\";s:17:\"@highlight-notice\";s:18:\"btn-default-top-bg\";s:7:\"#FFFFFF\";s:21:\"btn-default-bottom-bg\";s:11:\"@gray-light\";s:20:\"btn-default-hover-bg\";s:7:\"#FFFFFF\";s:22:\"btn-default-text-color\";s:11:\"@text-color\";s:28:\"btn-default-hover-text-color\";s:14:\"@brand-primary\";s:24:\"btn-default-border-color\";s:13:\"@border-color\";s:30:\"btn-default-hover-border-color\";s:14:\"@brand-primary\";s:18:\"btn-primary-top-bg\";s:20:\"@brand-primar
+y-light\";s:21:\"btn-primary-bottom-bg\";s:14:\"@brand-primary\";s:20:\"btn-primary-hover-bg\";s:14:\"@brand-primary\";s:22:\"btn-primary-text-color\";s:7:\"#FFFFFF\";s:28:\"btn-primary-hover-text-color\";s:23:\"@btn-primary-text-color\";s:20:\"btn-secondary-top-bg\";s:16:\"@brand-secondary\";s:23:\"btn-secondary-bottom-bg\";s:21:\"@brand-secondary-dark\";s:22:\"btn-secondary-hover-bg\";s:21:\"@brand-secondary-dark\";s:24:\"btn-secondary-text-color\";s:7:\"#FFFFFF\";s:30:\"btn-secondary-hover-text-color\";s:25:\"@btn-secondary-text-color\";s:15:\"panel-header-bg\";s:11:\"@gray-light\";s:18:\"panel-header-color\";s:11:\"@text-color\";s:12:\"panel-border\";s:13:\"@border-color\";s:8:\"panel-bg\";s:7:\"#FFFFFF\";s:11:\"label-color\";s:11:\"@text-color\";s:8:\"input-bg\";s:11:\"@gray-light\";s:11:\"input-color\";s:16:\"@brand-secondary\";s:23:\"input-placeholder-color\";s:25:\"lighten(@text-color, 15%)\";s:12:\"input-border\";s:13:\"@border-color\";s:14:\"input-focus-bg\";s:7:\"#FFFFFF\";s:18:\"input-focus-border\";s:14:\"@brand-primary\";s:17:\"input-focus-color\";s:16:\"@brand-secondary\";s:14:\"input-error-bg\";s:47:\"desaturate(lighten(@highlight-error, 38%), 20%)\";s:18:\"input-error-border\";s:16:\"@highlight-error\";s:17:\"input-error-color\";s:16:\"@highlight-error\";s:16:\"input-success-bg\";s:7:\"#FFFFFF\";s:20:\"input-success-border\";s:18:\"@highlight-success\";s:19:\"input-success-color\";s:21:\"@brand-secondary-dark\";s:21:\"panel-table-header-bg\";s:9:\"@panel-bg\";s:24:\"panel-table-header-color\";s:16:\"@text-color-dark\";s:12:\"table-row-bg\";s:7:\"#FFFFFF\";s:15:\"table-row-color\";s:16:\"@brand-secondary\";s:22:\"table-row-highlight-bg\";s:25:\"darken(@table-row-bg, 4%)\";s:15:\"table-header-bg\";s:16:\"@brand-secondary\";s:18:\"table-header-color\";s:7:\"#FFFFFF\";s:17:\"badge-discount-bg\";s:16:\"@highlight-error\";s:20:\"badge-discount-color\";s:7:\"#FFFFFF\";s:17:\"badge-newcomer-bg\";s:17:\"@highlight-notice\";s:20:\"badge-newcomer-color\";s:7:\"#FFFFFF\";s:23:\"badge-recommendation-bg\";s:18:\"@highlight-success\";s:26:\"badge-recommendation-color\";s:7:\"#FFFFFF\";s:17:\"badge-download-bg\";s:15:\"@highlight-info\";s:20:\"badge-download-color\";s:7:\"#FFFFFF\";}'),(8,23,'__color_scheme_brown__','__color_scheme_brown_description__','a:70:{s:13:\"brand-primary\";s:7:\"#613400\";s:19:\"brand-primary-light\";s:40:\"saturate(lighten(@brand-primary,5%), 5%)\";s:15:\"brand-secondary\";s:7:\"#5F7285\";s:20:\"brand-secondary-dark\";s:29:\"darken(@brand-secondary, 15%)\";s:4:\"gray\";s:7:\"#F5F5F8\";s:10:\"gray-light\";s:18:\"lighten(@gray, 1%)\";s:9:\"gray-dark\";s:24:\"darken(@gray-light, 10%)\";s:12:\"border-color\";s:10:\"@gray-dark\";s:17:\"highlight-success\";s:7:\"#2ECC71\";s:15:\"highlight-error\";s:7:\"#E74C3C\";s:16:\"highlight-notice\";s:7:\"#F1C40F\";s:14:\"highlight-info\";s:7:\"#4AA3DF\";s:7:\"body-bg\";s:23:\"darken(@gray-light, 5%)\";s:10:\"overlay-bg\";s:7:\"#000000\";s:15:\"overlay-opacity\";s:3:\"0.7\";s:10:\"text-color\";s:16:\"@brand-secondary\";s:15:\"text-color-dark\";s:21:\"@brand-secondary-dark\";s:10:\"link-color\";s:14:\"@brand-primary\";s:16:\"link-hover-color\";s:24:\"darken(@link-color, 10%)\";s:17:\"rating-star-color\";s:17:\"@highlight-notice\";s:18:\"btn-default-top-bg\";s:7:\"#FFFFFF\";s:21:\"btn-default-bottom-bg\";s:11:\"@gray-light\";s:20:\"btn-default-hover-bg\";s:7:\"#FFFFFF\";s:22:\"btn-default-text-color\";s:11:\"@text-color\";s:28:\"btn-default-hover-text-color\";s:14:\"@brand-primary\";s:24:\"btn-default-border-color\";s:13:\"@border-color\";s:30:\"btn-default-hover-border-color\";s:14:\"@brand-primary\";s:18:\"btn-primary-top-bg\";s:20:\"@brand-primary-light\";s:21:\"btn-primary-bottom-bg\";s:14:\"@brand-primary\";s:20:\"btn-primary-hover-bg\";s:14:\"@brand-primary\";s:22:\"btn-primary-text-color\";s:7:\"#FFFFFF\";s:28:\"btn-primary-hover-text-color\";s:23:\"@btn-primary-text-color\";s:20:\"btn-secondary-top-bg\";s:16:\"@brand-secondary\";s:23:\"btn-secondary-bottom-bg\";s:21:\"@brand-secondary-dark\";s:22:\"btn-secondary-hover-bg\";s:21:\"@brand-secondary-dark\";s
+:24:\"btn-secondary-text-color\";s:7:\"#FFFFFF\";s:30:\"btn-secondary-hover-text-color\";s:25:\"@btn-secondary-text-color\";s:15:\"panel-header-bg\";s:11:\"@gray-light\";s:18:\"panel-header-color\";s:11:\"@text-color\";s:12:\"panel-border\";s:13:\"@border-color\";s:8:\"panel-bg\";s:7:\"#FFFFFF\";s:11:\"label-color\";s:11:\"@text-color\";s:8:\"input-bg\";s:11:\"@gray-light\";s:11:\"input-color\";s:16:\"@brand-secondary\";s:23:\"input-placeholder-color\";s:25:\"lighten(@text-color, 15%)\";s:12:\"input-border\";s:13:\"@border-color\";s:14:\"input-focus-bg\";s:7:\"#FFFFFF\";s:18:\"input-focus-border\";s:14:\"@brand-primary\";s:17:\"input-focus-color\";s:16:\"@brand-secondary\";s:14:\"input-error-bg\";s:47:\"desaturate(lighten(@highlight-error, 38%), 20%)\";s:18:\"input-error-border\";s:16:\"@highlight-error\";s:17:\"input-error-color\";s:16:\"@highlight-error\";s:16:\"input-success-bg\";s:7:\"#FFFFFF\";s:20:\"input-success-border\";s:18:\"@highlight-success\";s:19:\"input-success-color\";s:21:\"@brand-secondary-dark\";s:21:\"panel-table-header-bg\";s:9:\"@panel-bg\";s:24:\"panel-table-header-color\";s:16:\"@text-color-dark\";s:12:\"table-row-bg\";s:7:\"#FFFFFF\";s:15:\"table-row-color\";s:16:\"@brand-secondary\";s:22:\"table-row-highlight-bg\";s:25:\"darken(@table-row-bg, 4%)\";s:15:\"table-header-bg\";s:16:\"@brand-secondary\";s:18:\"table-header-color\";s:7:\"#FFFFFF\";s:17:\"badge-discount-bg\";s:16:\"@highlight-error\";s:20:\"badge-discount-color\";s:7:\"#FFFFFF\";s:17:\"badge-newcomer-bg\";s:17:\"@highlight-notice\";s:20:\"badge-newcomer-color\";s:7:\"#FFFFFF\";s:23:\"badge-recommendation-bg\";s:18:\"@highlight-success\";s:26:\"badge-recommendation-color\";s:7:\"#FFFFFF\";s:17:\"badge-download-bg\";s:15:\"@highlight-info\";s:20:\"badge-download-color\";s:7:\"#FFFFFF\";}'),(9,23,'__color_scheme_blue__','__color_scheme_blue_description__','a:70:{s:13:\"brand-primary\";s:7:\"#009ee0\";s:19:\"brand-primary-light\";s:41:\"saturate(lighten(@brand-primary,12%), 5%)\";s:15:\"brand-secondary\";s:7:\"#5F7285\";s:20:\"brand-secondary-dark\";s:29:\"darken(@brand-secondary, 15%)\";s:4:\"gray\";s:7:\"#F5F5F8\";s:10:\"gray-light\";s:18:\"lighten(@gray, 1%)\";s:9:\"gray-dark\";s:24:\"darken(@gray-light, 10%)\";s:12:\"border-color\";s:10:\"@gray-dark\";s:17:\"highlight-success\";s:7:\"#2ECC71\";s:15:\"highlight-error\";s:7:\"#E74C3C\";s:16:\"highlight-notice\";s:7:\"#F1C40F\";s:14:\"highlight-info\";s:7:\"#4AA3DF\";s:7:\"body-bg\";s:23:\"darken(@gray-light, 5%)\";s:10:\"overlay-bg\";s:7:\"#000000\";s:15:\"overlay-opacity\";s:3:\"0.7\";s:10:\"text-color\";s:16:\"@brand-secondary\";s:15:\"text-color-dark\";s:21:\"@brand-secondary-dark\";s:10:\"link-color\";s:14:\"@brand-primary\";s:16:\"link-hover-color\";s:24:\"darken(@link-color, 10%)\";s:17:\"rating-star-color\";s:17:\"@highlight-notice\";s:18:\"btn-default-top-bg\";s:7:\"#FFFFFF\";s:21:\"btn-default-bottom-bg\";s:11:\"@gray-light\";s:20:\"btn-default-hover-bg\";s:7:\"#FFFFFF\";s:22:\"btn-default-text-color\";s:11:\"@text-color\";s:28:\"btn-default-hover-text-color\";s:14:\"@brand-primary\";s:24:\"btn-default-border-color\";s:13:\"@border-color\";s:30:\"btn-default-hover-border-color\";s:14:\"@brand-primary\";s:18:\"btn-primary-top-bg\";s:20:\"@brand-primary-light\";s:21:\"btn-primary-bottom-bg\";s:14:\"@brand-primary\";s:20:\"btn-primary-hover-bg\";s:14:\"@brand-primary\";s:22:\"btn-primary-text-color\";s:7:\"#FFFFFF\";s:28:\"btn-primary-hover-text-color\";s:23:\"@btn-primary-text-color\";s:20:\"btn-secondary-top-bg\";s:16:\"@brand-secondary\";s:23:\"btn-secondary-bottom-bg\";s:21:\"@brand-secondary-dark\";s:22:\"btn-secondary-hover-bg\";s:21:\"@brand-secondary-dark\";s:24:\"btn-secondary-text-color\";s:7:\"#FFFFFF\";s:30:\"btn-secondary-hover-text-color\";s:25:\"@btn-secondary-text-color\";s:15:\"panel-header-bg\";s:11:\"@gray-light\";s:18:\"panel-header-color\";s:11:\"@text-color\";s:12:\"panel-border\";s:13:\"@border-color\";s:8:\"panel-bg\";s:7:\"#FFFFFF\";s:11:\"label-color\";s:11:\"@text-color\";s:8:\"input-bg\";s:11:\"@gray-light\";s:11:\"input-color\";s:16:\"@brand-secondary\"
+;s:23:\"input-placeholder-color\";s:25:\"lighten(@text-color, 15%)\";s:12:\"input-border\";s:13:\"@border-color\";s:14:\"input-focus-bg\";s:7:\"#FFFFFF\";s:18:\"input-focus-border\";s:14:\"@brand-primary\";s:17:\"input-focus-color\";s:16:\"@brand-secondary\";s:14:\"input-error-bg\";s:47:\"desaturate(lighten(@highlight-error, 38%), 20%)\";s:18:\"input-error-border\";s:16:\"@highlight-error\";s:17:\"input-error-color\";s:16:\"@highlight-error\";s:16:\"input-success-bg\";s:7:\"#FFFFFF\";s:20:\"input-success-border\";s:18:\"@highlight-success\";s:19:\"input-success-color\";s:21:\"@brand-secondary-dark\";s:21:\"panel-table-header-bg\";s:9:\"@panel-bg\";s:24:\"panel-table-header-color\";s:16:\"@text-color-dark\";s:12:\"table-row-bg\";s:7:\"#FFFFFF\";s:15:\"table-row-color\";s:16:\"@brand-secondary\";s:22:\"table-row-highlight-bg\";s:25:\"darken(@table-row-bg, 4%)\";s:15:\"table-header-bg\";s:16:\"@brand-secondary\";s:18:\"table-header-color\";s:7:\"#FFFFFF\";s:17:\"badge-discount-bg\";s:16:\"@highlight-error\";s:20:\"badge-discount-color\";s:7:\"#FFFFFF\";s:17:\"badge-newcomer-bg\";s:17:\"@highlight-notice\";s:20:\"badge-newcomer-color\";s:7:\"#FFFFFF\";s:23:\"badge-recommendation-bg\";s:18:\"@highlight-success\";s:26:\"badge-recommendation-color\";s:7:\"#FFFFFF\";s:17:\"badge-download-bg\";s:15:\"@highlight-info\";s:20:\"badge-download-color\";s:7:\"#FFFFFF\";}'),(10,23,'__color_scheme_black__','__color_scheme_black_description__','a:70:{s:13:\"brand-primary\";s:7:\"#000000\";s:19:\"brand-primary-light\";s:28:\"lighten(@brand-primary, 20%)\";s:15:\"brand-secondary\";s:7:\"#555555\";s:20:\"brand-secondary-dark\";s:29:\"darken(@brand-secondary, 10%)\";s:4:\"gray\";s:7:\"#F5F5F8\";s:10:\"gray-light\";s:18:\"lighten(@gray, 1%)\";s:9:\"gray-dark\";s:24:\"darken(@gray-light, 10%)\";s:12:\"border-color\";s:10:\"@gray-dark\";s:17:\"highlight-success\";s:7:\"#2ECC71\";s:15:\"highlight-error\";s:7:\"#E74C3C\";s:16:\"highlight-notice\";s:7:\"#F1C40F\";s:14:\"highlight-info\";s:7:\"#4AA3DF\";s:7:\"body-bg\";s:23:\"darken(@gray-light, 5%)\";s:10:\"overlay-bg\";s:7:\"#000000\";s:15:\"overlay-opacity\";s:3:\"0.7\";s:10:\"text-color\";s:16:\"@brand-secondary\";s:15:\"text-color-dark\";s:21:\"@brand-secondary-dark\";s:10:\"link-color\";s:14:\"@brand-primary\";s:16:\"link-hover-color\";s:24:\"darken(@link-color, 10%)\";s:17:\"rating-star-color\";s:17:\"@highlight-notice\";s:18:\"btn-default-top-bg\";s:7:\"#FFFFFF\";s:21:\"btn-default-bottom-bg\";s:11:\"@gray-light\";s:20:\"btn-default-hover-bg\";s:7:\"#FFFFFF\";s:22:\"btn-default-text-color\";s:11:\"@text-color\";s:28:\"btn-default-hover-text-color\";s:14:\"@brand-primary\";s:24:\"btn-default-border-color\";s:13:\"@border-color\";s:30:\"btn-default-hover-border-color\";s:14:\"@brand-primary\";s:18:\"btn-primary-top-bg\";s:20:\"@brand-primary-light\";s:21:\"btn-primary-bottom-bg\";s:14:\"@brand-primary\";s:20:\"btn-primary-hover-bg\";s:14:\"@brand-primary\";s:22:\"btn-primary-text-color\";s:7:\"#FFFFFF\";s:28:\"btn-primary-hover-text-color\";s:23:\"@btn-primary-text-color\";s:20:\"btn-secondary-top-bg\";s:16:\"@brand-secondary\";s:23:\"btn-secondary-bottom-bg\";s:21:\"@brand-secondary-dark\";s:22:\"btn-secondary-hover-bg\";s:21:\"@brand-secondary-dark\";s:24:\"btn-secondary-text-color\";s:7:\"#FFFFFF\";s:30:\"btn-secondary-hover-text-color\";s:25:\"@btn-secondary-text-color\";s:15:\"panel-header-bg\";s:11:\"@gray-light\";s:18:\"panel-header-color\";s:11:\"@text-color\";s:12:\"panel-border\";s:13:\"@border-color\";s:8:\"panel-bg\";s:7:\"#FFFFFF\";s:11:\"label-color\";s:11:\"@text-color\";s:8:\"input-bg\";s:11:\"@gray-light\";s:11:\"input-color\";s:16:\"@brand-secondary\";s:23:\"input-placeholder-color\";s:25:\"lighten(@text-color, 15%)\";s:12:\"input-border\";s:13:\"@border-color\";s:14:\"input-focus-bg\";s:7:\"#FFFFFF\";s:18:\"input-focus-border\";s:14:\"@brand-primary\";s:17:\"input-focus-color\";s:16:\"@brand-secondary\";s:14:\"input-error-bg\";s:47:\"desaturate(lighten(@highlight-error, 38%), 20%)\";s:18:\"input-error-border\";s:16:\"@highlight-error\";s:17:\"input-error-color\";s:16:\"@high
+light-error\";s:16:\"input-success-bg\";s:7:\"#FFFFFF\";s:20:\"input-success-border\";s:18:\"@highlight-success\";s:19:\"input-success-color\";s:21:\"@brand-secondary-dark\";s:21:\"panel-table-header-bg\";s:9:\"@panel-bg\";s:24:\"panel-table-header-color\";s:16:\"@text-color-dark\";s:12:\"table-row-bg\";s:7:\"#FFFFFF\";s:15:\"table-row-color\";s:16:\"@brand-secondary\";s:22:\"table-row-highlight-bg\";s:25:\"darken(@table-row-bg, 4%)\";s:15:\"table-header-bg\";s:16:\"@brand-secondary\";s:18:\"table-header-color\";s:7:\"#FFFFFF\";s:17:\"badge-discount-bg\";s:16:\"@highlight-error\";s:20:\"badge-discount-color\";s:7:\"#FFFFFF\";s:17:\"badge-newcomer-bg\";s:17:\"@highlight-notice\";s:20:\"badge-newcomer-color\";s:7:\"#FFFFFF\";s:23:\"badge-recommendation-bg\";s:18:\"@highlight-success\";s:26:\"badge-recommendation-color\";s:7:\"#FFFFFF\";s:17:\"badge-download-bg\";s:15:\"@highlight-info\";s:20:\"badge-download-color\";s:7:\"#FFFFFF\";}'),(11,23,'__color_scheme_orange__','__color_scheme_orange_description__','a:70:{s:13:\"brand-primary\";s:7:\"#D9400B\";s:19:\"brand-primary-light\";s:41:\"saturate(lighten(@brand-primary,12%), 5%)\";s:15:\"brand-secondary\";s:7:\"#5F7285\";s:20:\"brand-secondary-dark\";s:29:\"darken(@brand-secondary, 15%)\";s:4:\"gray\";s:7:\"#F5F5F8\";s:10:\"gray-light\";s:18:\"lighten(@gray, 1%)\";s:9:\"gray-dark\";s:24:\"darken(@gray-light, 10%)\";s:12:\"border-color\";s:10:\"@gray-dark\";s:17:\"highlight-success\";s:7:\"#2ECC71\";s:15:\"highlight-error\";s:7:\"#E74C3C\";s:16:\"highlight-notice\";s:7:\"#F1C40F\";s:14:\"highlight-info\";s:7:\"#4AA3DF\";s:7:\"body-bg\";s:23:\"darken(@gray-light, 5%)\";s:10:\"overlay-bg\";s:7:\"#000000\";s:15:\"overlay-opacity\";s:3:\"0.7\";s:10:\"text-color\";s:16:\"@brand-secondary\";s:15:\"text-color-dark\";s:21:\"@brand-secondary-dark\";s:10:\"link-color\";s:14:\"@brand-primary\";s:16:\"link-hover-color\";s:24:\"darken(@link-color, 10%)\";s:17:\"rating-star-color\";s:17:\"@highlight-notice\";s:18:\"btn-default-top-bg\";s:7:\"#FFFFFF\";s:21:\"btn-default-bottom-bg\";s:11:\"@gray-light\";s:20:\"btn-default-hover-bg\";s:7:\"#FFFFFF\";s:22:\"btn-default-text-color\";s:11:\"@text-color\";s:28:\"btn-default-hover-text-color\";s:14:\"@brand-primary\";s:24:\"btn-default-border-color\";s:13:\"@border-color\";s:30:\"btn-default-hover-border-color\";s:14:\"@brand-primary\";s:18:\"btn-primary-top-bg\";s:20:\"@brand-primary-light\";s:21:\"btn-primary-bottom-bg\";s:14:\"@brand-primary\";s:20:\"btn-primary-hover-bg\";s:14:\"@brand-primary\";s:22:\"btn-primary-text-color\";s:7:\"#FFFFFF\";s:28:\"btn-primary-hover-text-color\";s:23:\"@btn-primary-text-color\";s:20:\"btn-secondary-top-bg\";s:16:\"@brand-secondary\";s:23:\"btn-secondary-bottom-bg\";s:21:\"@brand-secondary-dark\";s:22:\"btn-secondary-hover-bg\";s:21:\"@brand-secondary-dark\";s:24:\"btn-secondary-text-color\";s:7:\"#FFFFFF\";s:30:\"btn-secondary-hover-text-color\";s:25:\"@btn-secondary-text-color\";s:15:\"panel-header-bg\";s:11:\"@gray-light\";s:18:\"panel-header-color\";s:11:\"@text-color\";s:12:\"panel-border\";s:13:\"@border-color\";s:8:\"panel-bg\";s:7:\"#FFFFFF\";s:11:\"label-color\";s:11:\"@text-color\";s:8:\"input-bg\";s:11:\"@gray-light\";s:11:\"input-color\";s:16:\"@brand-secondary\";s:23:\"input-placeholder-color\";s:25:\"lighten(@text-color, 15%)\";s:12:\"input-border\";s:13:\"@border-color\";s:14:\"input-focus-bg\";s:7:\"#FFFFFF\";s:18:\"input-focus-border\";s:14:\"@brand-primary\";s:17:\"input-focus-color\";s:16:\"@brand-secondary\";s:14:\"input-error-bg\";s:47:\"desaturate(lighten(@highlight-error, 38%), 20%)\";s:18:\"input-error-border\";s:16:\"@highlight-error\";s:17:\"input-error-color\";s:16:\"@highlight-error\";s:16:\"input-success-bg\";s:7:\"#FFFFFF\";s:20:\"input-success-border\";s:18:\"@highlight-success\";s:19:\"input-success-color\";s:21:\"@brand-secondary-dark\";s:21:\"panel-table-header-bg\";s:9:\"@panel-bg\";s:24:\"panel-table-header-color\";s:16:\"@text-color-dark\";s:12:\"table-row-bg\";s:7:\"#FFFFFF\";s:15:\"table-row-color\";s:16:\"@brand-secondary\";s:22:\"table-row-highlight-bg\";s:25:\"darken(
+@table-row-bg, 4%)\";s:15:\"table-header-bg\";s:16:\"@brand-secondary\";s:18:\"table-header-color\";s:7:\"#FFFFFF\";s:17:\"badge-discount-bg\";s:16:\"@highlight-error\";s:20:\"badge-discount-color\";s:7:\"#FFFFFF\";s:17:\"badge-newcomer-bg\";s:17:\"@highlight-notice\";s:20:\"badge-newcomer-color\";s:7:\"#FFFFFF\";s:23:\"badge-recommendation-bg\";s:18:\"@highlight-success\";s:26:\"badge-recommendation-color\";s:7:\"#FFFFFF\";s:17:\"badge-download-bg\";s:15:\"@highlight-info\";s:20:\"badge-download-color\";s:7:\"#FFFFFF\";}');
+/*!40000 ALTER TABLE `s_core_templates_config_set` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `s_core_templates_config_values`
+--
+
+DROP TABLE IF EXISTS `s_core_templates_config_values`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_core_templates_config_values` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `element_id` int(11) NOT NULL,
+  `shop_id` int(11) NOT NULL,
+  `value` text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `element_id_shop_id` (`element_id`,`shop_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_core_templates_config_values`
+--
+
+LOCK TABLES `s_core_templates_config_values` WRITE;
+/*!40000 ALTER TABLE `s_core_templates_config_values` DISABLE KEYS */;
+INSERT INTO `s_core_templates_config_values` VALUES (1,12,1,'s:47:\"frontend/_public/src/img/logos/logo--tablet.png\";');
+/*!40000 ALTER TABLE `s_core_templates_config_values` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `s_core_widget_views`
+--
+
+DROP TABLE IF EXISTS `s_core_widget_views`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_core_widget_views` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `widget_id` int(11) unsigned NOT NULL,
+  `auth_id` int(11) unsigned NOT NULL,
+  `column` int(11) unsigned NOT NULL,
+  `position` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `widget_id` (`widget_id`,`auth_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_core_widget_views`
+--
+
+LOCK TABLES `s_core_widget_views` WRITE;
+/*!40000 ALTER TABLE `s_core_widget_views` DISABLE KEYS */;
+INSERT INTO `s_core_widget_views` VALUES (1,7,50,0,0);
+/*!40000 ALTER TABLE `s_core_widget_views` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `s_product_streams_articles`
+--
+
+DROP TABLE IF EXISTS `s_product_streams_articles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_product_streams_articles` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `stream_id` int(11) unsigned NOT NULL,
+  `article_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `stream_id` (`stream_id`,`article_id`),
+  KEY `s_product_streams_articles_fk_article_id` (`article_id`),
+  CONSTRAINT `s_product_streams_articles_fk_article_id` FOREIGN KEY (`article_id`) REFERENCES `s_articles` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `s_product_streams_articles_fk_stream_id` FOREIGN KEY (`stream_id`) REFERENCES `s_product_streams` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `s_product_streams_selection`
+--
+
+DROP TABLE IF EXISTS `s_product_streams_selection`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `s_product_streams_selection` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `stream_id` int(11) unsigned NOT NULL,
+  `article_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `stream_id` (`stream_id`,`article_id`),
+  KEY `s_product_streams_selection_fk_article_id` (`article_id`),
+  CONSTRAINT `s_product_streams_selection_fk_article_id` FOREIGN KEY (`article_id`) REFERENCES `s_articles` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `s_product_streams_selection_fk_stream_id` FOREIGN KEY (`stream_id`) REFERENCES `s_product_streams` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+-- --------------------------------------------------------
+
+SET FOREIGN_KEY_CHECKS = 1;
