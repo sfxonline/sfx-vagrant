@@ -83,10 +83,11 @@
   notify: apache-reload
 
 - name: Configure PHP
-  template: src={{ item }} dest=/etc/php5/mods-available/{{ item }} owner=root group=root mode=0644
+  template: src={{ item.src }} dest=/etc/php5/mods-available/{{ item.dest }} owner=root group=root mode=0644
   with_items:
-    - opcache.ini
-    - debug.ini
+    - { src: opcache.ini, dest: opcache.ini }
+    - { src: debug.ini, dest: debug.ini }
+    - { src: xdebug.ini.j2, dest: xdebug.ini }
   sudo: yes
 
 - name: Configure PHP Apace module
@@ -94,14 +95,16 @@
   with_items:
     - { src: opcache.ini, dest: 05-opcache.ini }
     - { src: debug.ini, dest: 99-debug.ini}
+    - { src: xdebug.ini, dest: 20-xdebug.ini}
   sudo: yes
   notify: apache-restart
 
 - name: Configure PHP-CLI
-  template: src={{ item.src }} dest=/etc/php5/cli/conf.d/{{ item.dest }} owner=root group=root mode=0644
+  file: src=/etc/php5/mods-available/{{ item.src }} dest=/etc/php5/cli/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
   with_items:
     - { src: opcache.ini, dest: 05-opcache.ini }
     - { src: debug.ini, dest: 99-debug.ini}
+    - { src: xdebug.ini, dest: 20-xdebug.ini}
   sudo: yes
 
 - name: be sure apache is started and enabled

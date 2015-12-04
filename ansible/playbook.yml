@@ -3,5 +3,6 @@
   hosts: all
   roles:
     #- shopware4
-    - shopware5
+    #- shopware5
+    - shopware51
     #- jtlshop4

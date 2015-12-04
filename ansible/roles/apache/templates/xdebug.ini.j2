@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+zend_extension=xdebug.so
+xdebug.remote_enable=On
+xdebug.remote_connect_back=On
+; Wenn man den JTL Connector debuggen will muss xdebug automatisch zur IDE verbinden.
+;xdebug.remote_autostart=On
+; Wenn man xdebug.remote_host nutzen will muss xdebug.remote_connect_back auf Off gesetzt sein.
+;xdebug.remote_host={{ app_host }}
+xdebug.remote_port=9000
+xdebug.overload_var_dump=0
+xdebug.show_local_vars=1
