@@ -1,6 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 projectname = File.basename(Dir.getwd)
+
 module OS
     def OS.windows?
         (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
@@ -21,12 +22,10 @@ end
 
 Vagrant.configure("2") do |config|
 
+    #config.ssh.insert_key = false
     config.ssh.forward_agent = true
-
     config.vm.box = "ubuntu/vivid64"
-
     config.vm.network :private_network, ip: "33.33.33.10"
-
     config.vm.hostname = projectname
 
     #config.vm.synced_folder "./www", "/home/vagrant/www", create: true
