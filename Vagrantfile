@@ -21,6 +21,11 @@ module OS
 end
 
 Vagrant.configure("2") do |config|
+    if OS.windows?
+        config.vm.provider "hyperv"
+    else
+        config.vm.provider "virtualbox"
+    end
 
     #config.ssh.insert_key = false
     config.ssh.forward_agent = true
@@ -29,6 +34,15 @@ Vagrant.configure("2") do |config|
     config.vm.hostname = projectname
 
     #config.vm.synced_folder "./www", "/home/vagrant/www", create: true
+
+    config.vm.provider "hyperv" do |hv|
+        config.vm.box = "hashicorp/precise64"
+        hv.vmname = projectname
+        hv.cpus = 2
+        hv.memory = 2048
+        #hv.vlan_id = 2
+        hv.ip_address_timeout = 180
+    end
 
     config.vm.provider "virtualbox" do |vb|
         vb.name = projectname
