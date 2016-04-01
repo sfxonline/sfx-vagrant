@@ -1,8 +1,7 @@
 ---
 - file: path="{{ jtlshop4_install_path }}" state=directory
 - name: Unzip JTLShop4
-#  get_url: url="{{ jtlshop4_setup_url }}" dest=/home/vagrant/jtlshop4.zip
-  unarchive: src={{ web_root }}/{{ jtlshop4_release_archive }} dest={{ jtlshop4_install_path }} copy=no creates={{ jtlshop4_install_path }}/jtl.php
+  unarchive: src={{ jtlshop4_release_archive }} dest={{ jtlshop4_install_path }} copy=yes creates={{ jtlshop4_install_path }}/jtl.php
 - file: path="{{ web_root }}/{{ jtlshop4_release_archive }}" state=absent
 - file: path="{{ jtlshop4_install_path }}/includes/config.JTL-Shop.ini.php" state=touch mode=777
 
