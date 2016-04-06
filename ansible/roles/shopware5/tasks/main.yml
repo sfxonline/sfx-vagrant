@@ -8,7 +8,6 @@
 - unarchive: src=/home/vagrant/shopware5.zip dest={{ shopware5_install_path }} copy=no creates={{ shopware5_install_path }}/shopware.php
 
 - name: Copy create cache script
-  tags:
   template:
     src: make_cache_dirs.j2
     dest: /etc/init.d/make_cache_dirs
