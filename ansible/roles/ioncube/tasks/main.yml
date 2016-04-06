@@ -1,13 +1,13 @@
 ---
 #- name: create ionCube install dir
 #  file: path="{{ ioncube_install_path }}" state=directory
-#  sudo: yes
+#  become: yes
 
 - name: Download IonCube loaders
   get_url:
     url: "{{ ioncube_download_url }}"
     dest: "{{ ioncube_install_path }}/ioncube_loaders.tar.gz"
-  sudo: yes
+  become: yes
 
 - name: Extract IonCube Loaders
   unarchive:
@@ -15,26 +15,26 @@
     dest: "{{ ioncube_install_path }}"
     copy: no
     creates: "{{ ioncube_install_path }}/ioncube/README.txt"
-  sudo: yes
+  become: yes
 
 #- name: Clean up downloaded files
 #  file: path="{{ ioncube_install_path }}/ioncube_loaders.tar.gz" state=absent
-#  sudo: yes
+#  become: yes
 
 - name: create php.ini entry
   shell: echo "zend_extension={{ ioncube_install_path }}/ioncube/ioncube_loader_lin_5.6.so" > /etc/php5/mods-available/ioncube.ini
   args:
     creates: /etc/php5/mods-available/ioncube.ini
-  sudo: yes
+  become: yes
 
 - name: Enable IonCube for Apache 2 PHP Module
   file: path=/etc/php5/apache2/conf.d/00-ioncube.ini src=/etc/php5/mods-available/ioncube.ini state=link
-  sudo: yes
+  become: yes
 
 - name: Enable IonCube for php5-cli
   file: path=/etc/php5/cli/conf.d/00-ioncube.ini src=/etc/php5/mods-available/ioncube.ini state=link
-  sudo: yes
+  become: yes
 
 #- name: Disable php5-opcache for Apache 2 PHP Module
 #  file: path=/etc/php5/apache2/conf.d/05-opcache.ini state=absent
-#  sudo: yes
+#  become: yes

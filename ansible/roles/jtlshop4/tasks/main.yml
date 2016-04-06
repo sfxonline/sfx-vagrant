@@ -6,7 +6,7 @@
 
 - name: Setup Owner
   file: path={{ jtlshop4_install_path }} owner=vagrant group=users recurse=true
-  sudo: yes
+  become: yes
 
 - name: Setup Permissions
   file: path={{ item }} recurse=true state=directory mode=777
@@ -21,8 +21,8 @@
 
 - name: Create shopware db
   mysql_db: name={{ jtlshop4_db_name }} state=present
-  sudo: yes
+  become: yes
 
 - name: Create shopware db user
   mysql_user: name={{ jtlshop4_db_user }} password={{ jtlshop4_db_pass }} priv={{ jtlshop4_db_name }}.*:ALL state=present
-  sudo: yes
+  become: yes

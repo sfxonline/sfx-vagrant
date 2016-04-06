@@ -1,11 +1,11 @@
 ---
 - name: Add MariaDB MySQL apt-key
-  sudo: yes
+  become: yes
   apt_key: url="http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search={{ keyserver_fingerprint }}"
            state=present
 
 - name: Add MariaDB MySQL deb and deb-src
-  sudo: yes
+  become: yes
   apt_repository: repo="{{ item }}" state=present
   with_items:
   - "deb http://{{ mirror }}/mariadb/repo/{{ version }}/ubuntu {{ mariadb_dist | default(ansible_distribution_release) }} main"
@@ -14,18 +14,18 @@
 - name: Install MariaDB MySQL server
   apt: pkg={{ item }} state=present
   notify: mysql-restart
-  sudo: yes
+  become: yes
   with_items:
     - mariadb-server
     - mariadb-client
     - python-mysqldb
 
 - name: Start MariaDB MySQL Server
-  sudo: yes
+  become: yes
   service: name=mysql state=started enabled=true
 
 - name: Set root user password
-  sudo: yes
+  become: yes
   mysql_user: name=root
               host="{{ item }}"
               password="{{ mysql_root_password }}"
@@ -38,7 +38,7 @@
     - localhost
 
 - name: Copy .my.cnf file with root password credentials.
-  sudo: yes
+  become: yes
   template:
     src: my.cnf.j2
     dest: ~/.my.cnf
@@ -47,7 +47,7 @@
     mode: 0600
 
 - name: Copy /etc/my.cnf file with root password credentials.
-  sudo: yes
+  become: yes
   template:
     src: etc_my.cnf.j2
     dest: /etc/mysql/my.cnf
@@ -56,7 +56,7 @@
     mode: 0644
 
 - name: Delete anonymous MySQL server users
-  sudo: yes
+  become: yes
   mysql_user: user=""
               host="{{ item }}"
               state=absent
@@ -66,6 +66,6 @@
     - "{{ ansible_hostname }}"
 
 - name: Remove the test database
-  sudo: yes
+  become: yes
   mysql_db: name=test
             state=absent

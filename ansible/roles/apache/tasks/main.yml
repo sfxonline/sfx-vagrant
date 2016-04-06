@@ -1,7 +1,7 @@
 ---
 - name: Install Apache/PHP
   apt: pkg={{ item }} state=present
-  sudo: yes
+  become: yes
   with_items:
     - libapache2-mod-php5
     - php5-cli
@@ -15,7 +15,7 @@
 
 - name: Set /var/lock/apache2 owner
   file: path=/var/lock/apache2 recurse=yes state=directory group={{ apache_group }} owner={{ apache_user }}
-  sudo: yes
+  become: yes
 
 - name: Set Apache user and group
   lineinfile: >
@@ -28,7 +28,7 @@
    - { key: "^export APACHE_RUN_GROUP=", value: "export APACHE_RUN_GROUP={{ apache_group }}" }
   notify:
    - apache-restart
-  sudo: yes
+  become: yes
 
 - name: Make sure apache_root exists
   file:
@@ -36,7 +36,7 @@
     state=directory
     group={{ apache_group }}
     owner={{ apache_user }}
-  sudo: yes
+  become: yes
 
 - name: Upload phpinfo.php
   template: src={{ item }} dest=/tmp/{{ item }} owner={{ apache_user }} group={{ apache_group }} mode=0644
@@ -53,12 +53,12 @@
     - php5
     - autoindex
     - ssl
-  sudo: yes
+  become: yes
   notify: apache-restart
 
 - name: Delete default Apache vhost
   file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
-  sudo: yes
+  become: yes
   notify: apache-restart
 
 - name: Push default virtualhost configuration template
@@ -66,11 +66,11 @@
     src=default_virtualhost.conf.j2
     dest=/etc/apache2/sites-available/default-vhost.conf
   notify: apache-restart
-  sudo: yes
+  become: yes
 
 - name: Create ssl directory
   file: path=/etc/apache2/ssl state=directory group={{ apache_group }} owner={{ apache_user }}
-  sudo: yes
+  become: yes
 
 - name: create self-signed SSL cert
   command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN=${ansible_fqdn}" -days 3650 -keyout /etc/apache2/ssl/server.key -out /etc/apache2/ssl/server.crt -extensions v3_ca creates=/etc/apache2/ssl/server.crt
@@ -79,7 +79,7 @@
   command: a2ensite {{ item }} creates=/etc/apache2/sites-enabled/{{ item }}
   with_items:
     - default-vhost
-  sudo: yes
+  become: yes
   notify: apache-reload
 
 - name: Configure PHP
@@ -88,7 +88,7 @@
     - { src: opcache.ini, dest: opcache.ini }
     - { src: debug.ini, dest: debug.ini }
     - { src: xdebug.ini.j2, dest: xdebug.ini }
-  sudo: yes
+  become: yes
 
 - name: Configure PHP Apace module
   file: src=/etc/php5/mods-available/{{ item.src }} dest=/etc/php5/apache2/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
@@ -96,7 +96,7 @@
     - { src: opcache.ini, dest: 05-opcache.ini }
     - { src: debug.ini, dest: 99-debug.ini}
     - { src: xdebug.ini, dest: 20-xdebug.ini}
-  sudo: yes
+  become: yes
   notify: apache-restart
 
 - name: Configure PHP-CLI
@@ -105,12 +105,12 @@
     - { src: opcache.ini, dest: 05-opcache.ini }
     - { src: debug.ini, dest: 99-debug.ini}
     - { src: xdebug.ini, dest: 20-xdebug.ini}
-  sudo: yes
+  become: yes
 
 - name: be sure apache is started and enabled
   service: name=apache2 state=started enabled=yes
-  sudo: yes
+  become: yes
 
 - name: Setup Owner
   file: path={{ apache_root }} owner=vagrant group=users recurse=true
-  sudo: yes
+  become: yes

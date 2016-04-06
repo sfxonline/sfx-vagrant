@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
 
     #config.ssh.insert_key = false
     config.ssh.forward_agent = true
-    config.vm.box = "ubuntu/vivid64"
+    config.vm.box = "ubuntu/wily64"
     config.vm.network :private_network, ip: "33.33.33.10"
     config.vm.hostname = projectname
 

@@ -21,9 +21,9 @@ if [ ! -d $ANSIBLE_DIR ]; then
 	echo "Installing Ansible dependencies and Git"
 	sudo apt-get -q install -y git python-yaml python-paramiko python-jinja2 python-setuptools
 	echo "Cloning Ansible"
-	wget -q http://releases.ansible.com/ansible/ansible-1.9.4.tar.gz
-	tar -zxf ansible-1.9.4.tar.gz
-	rm -f ansible-1.9.4.tar.gz
+	wget -q http://releases.ansible.com/ansible/ansible-latest.tar.gz
+	tar -zxf ansible-latest.tar.gz
+	rm -f ansible-latest.tar.gz
 	mv ansible-* ${ANSIBLE_DIR}
 	cd ${ANSIBLE_DIR}
 	make -s
