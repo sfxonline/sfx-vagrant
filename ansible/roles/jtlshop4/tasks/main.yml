@@ -2,7 +2,6 @@
 - file: path="{{ jtlshop4_install_path }}" state=directory
 - name: Unzip JTLShop4
   unarchive: src={{ jtlshop4_release_archive }} dest={{ jtlshop4_install_path }} copy=yes creates={{ jtlshop4_install_path }}/jtl.php
-- file: path="{{ web_root }}/{{ jtlshop4_release_archive }}" state=absent
 - file: path="{{ jtlshop4_install_path }}/includes/config.JTL-Shop.ini.php" state=touch mode=777
 
 - name: Setup Owner

@@ -1,6 +1,5 @@
 ---
-jtlshop4_setup_url: "http://beta.dev.jtl-shop.de/jtlshop_release_4.0_20150918134650_1577c60fc.zip"
-jtlshop4_release_archive: "jtl-shop4.02.0.zip"
+jtlshop4_release_archive: "jtl-shop4.zip"
 jtlshop4_repo_url: ""
 jtlshop4_demo_data_url: ""
 jtlshop4_install_path: "{{ web_root }}/jtlshop4"
