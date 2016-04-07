@@ -8,6 +8,7 @@
   become: yes
   with_items:
     - chef
+    - puppet
 
 - name: upgrade the distro
   apt: upgrade=yes
@@ -31,7 +32,6 @@
     - python-software-properties
     - unattended-upgrades
     - ant
-    - cowsay
     - tmux
     - avahi-daemon
     - openjdk-7-jre-headless

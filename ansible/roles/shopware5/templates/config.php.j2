@@ -10,7 +10,10 @@ return array (
     ],
     'phpSettings' => [
         'error_reporting' => '{{ shopware5_php_error_reporting }}',
-        'error_display' => 'Off'
+        'error_display' => 'Off',
+        'error_log' => '{{ shopware5_install_path }}/var/log/php_error.log',
+        'log_errors' => 'On',
+        'max_execution_time' => '300'
     ],
     'template' => [
         'cacheDir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/templates',
@@ -35,7 +38,7 @@ return array (
         'fileCacheDir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/doctrine/filecache',
         'attributeDir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/doctrine/attributes',
         'proxyDir'     => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/doctrine/proxies',
-//        'cacheProvider' => 'auto', // supports null, auto, Apc, Array, Wincache and Xcache
+        'cacheProvider' => 'auto', // supports null, auto, Apc, Array, Wincache and Xcache
     ],
 
 );
