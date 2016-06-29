@@ -36,6 +36,9 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--ioapic", "on"]
         vb.customize ["modifyvm", :id, "--memory", 2048]
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+		vb.customize ["modifyvm", :id, "--paravirtprovider", "kvm"]
+		vb.customize ["modifyvm", :id, "--pae", "on"]
+        vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
     end
 
     if OS.windows?
