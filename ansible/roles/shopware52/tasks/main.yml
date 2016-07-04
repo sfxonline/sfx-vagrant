@@ -1,0 +1,107 @@
+---
+- name: Create directory
+  file: path={{ shopware5_install_path }} owner=vagrant group=users state=directory
+  become: yes
+
+- name: Download Shopware
+  get_url: url={{ shopware5_download_url }} dest={{ web_root }}/shopware5.zip
+- unarchive: src={{ web_root }}/shopware5.zip dest={{ shopware5_install_path }} copy=no creates={{ shopware5_install_path }}/shopware.php list_files=no
+
+#- name: Copy create cache script
+#  template:
+#    src: make_cache_dirs.j2
+#    dest: /etc/init.d/make_cache_dirs
+#    owner: root
+#    group: root
+#    mode: 0755
+#  become: yes
+#
+#- name: Autostart cache script
+#  service: name=make_cache_dirs enabled=yes
+#  become: yes
+
+- name: Setup Permissions
+  file: path={{ item }} recurse=true state=directory mode=777
+  with_items:
+    - "{{ shopware5_install_path }}/cache"
+    - "{{ shopware5_install_path }}/logs"
+
+- name: Make Shopware CLI command executable
+  file: path={{ shopware5_install_path }}/bin/console mode="ug+x" state=touch
+
+- name: Create Cache Folder
+  file: path=/dev/shm/cache/ mode=777 owner={{ apache_user }} group={{ apache_user }} state=directory
+  become: yes
+
+- name: Create shopware db
+  mysql_db: name={{ shopware5_db_name }} state=present
+  become: yes
+
+- name: Create shopware db user
+  mysql_user: name={{ shopware5_db_user }} password={{ shopware5_db_pass }} priv={{ shopware5_db_name }}.*:ALL state=present
+  become: yes
+
+- name: Import Shopware database
+  mysql_db: name={{ shopware5_db_name }} state=import target={{ shopware5_install_path }}/recovery/install/data/sql/install.sql login_user={{ shopware5_db_user }} login_password={{ shopware5_db_pass }}
+
+- name: Import Shopware snippets
+  mysql_db: name={{ shopware5_db_name }} state=import target={{ shopware5_install_path }}/recovery/install/data/sql/snippets.sql login_user={{ shopware5_db_user }} login_password={{ shopware5_db_pass }}
+
+- name: Create Shopware Admin user
+  template:
+    src: setup_wizard_data.sql.j2
+    dest: "/tmp/setup_wizard_data.sql"
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+- mysql_db: name={{ shopware5_db_name }} state=import target=/tmp/setup_wizard_data.sql login_user={{ shopware5_db_user }} login_password={{ shopware5_db_pass }}
+
+- name: Create install lock file
+  shell: echo {{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}{{ ansible_date_time.hour }}{{ ansible_date_time.minute }} > {{ shopware5_install_path }}/recovery/install/data/install.lock
+
+- name: Upload config.php
+  template:
+    src: config.php.j2
+    dest: "/tmp/shopware_config.php"
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+
+- name: Move config.php
+  shell: cp -f /tmp/shopware_config.php "{{ shopware5_install_path }}/config.php"; chown vagrant:users "{{ shopware5_install_path }}/config.php"; rm -f /tmp/shopware_config.php;
+
+- name: Disable first run wizard
+  command: bin/console sw:firstrunwizard:disable
+  args:
+    chdir: "{{ shopware5_install_path }}"
+
+- name: generate attributes
+  command: bin/console sw:generate:attributes
+  args:
+    chdir: "{{ shopware5_install_path }}"
+
+- name: Rebuild category tree
+  command: bin/console sw:rebuild:category:tree
+  args:
+    chdir: "{{ shopware5_install_path }}"
+
+- name: Generate proxies
+  command: bin/console orm:generate:proxies -q
+  register: swtout
+  args:
+    chdir: "{{ shopware5_install_path }}"
+
+- name: Initialize theme
+  command: bin/console sw:theme:initialize
+  args:
+    chdir: "{{ shopware5_install_path }}"
+
+- name: Download demo data
+  command: bin/console sw:store:download SwagDemoDataDE -q
+  args:
+    chdir: "{{ shopware5_install_path }}"
+
+- name: Install demo data
+  command: bin/console sw:plugin:install SwagDemoDataDE
+  args:
+    chdir: "{{ shopware5_install_path }}"
