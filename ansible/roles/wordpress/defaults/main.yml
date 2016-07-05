@@ -1,0 +1,12 @@
+---
+wordpress_download_url: "https://de.wordpress.org/latest-de_DE.zip"
+wordpress_install_path: "{{ web_root }}/wordpress"
+wordpress_db_host: "localhost"
+wordpress_db_port: "3306"
+wordpress_db_name: "wordpress"
+wordpress_db_pass: "wordpress"
+wordpress_db_user: "wordpress"
+wordpress_db_prefix: "wp_"
+wordpress_app_path: "/wordpress"
+wordpress_app_host: "{{ app_host }}"
+wordpress_php_error_reporting: "E_ALL & ~E_NOTICE & ~E_DEPRECATED"

@@ -1,0 +1,46 @@
+---
+- name: Create directory
+  file: path={{ wordpress_install_path }} owner=vagrant group=users state=directory
+  become: yes
+
+- name: Download Wordpress
+  get_url: url={{ wordpress_download_url }} dest={{ web_root }}/wordpress.zip
+- unarchive: src={{ web_root }}/wordpress.zip dest={{ wordpress_install_path }} copy=no creates={{ wordpress_install_path }}/wp-config-sample.php
+
+#- name: Copy create cache script
+#  template:
+#    src: make_cache_dirs.j2
+#    dest: /etc/init.d/make_cache_dirs
+#    owner: root
+#    group: root
+#    mode: 0755
+#  become: yes
+#
+#- name: Autostart cache script
+#  service: name=make_cache_dirs enabled=yes
+#  become: yes
+
+- name: Setup Permissions
+  file: path={{ item }} recurse=true state=directory mode=777
+  with_items:
+    - "{{ wordpress_install_path }}/cache"
+    - "{{ wordpress_install_path }}/logs"
+
+- name: Create Wordpress db
+  mysql_db: name={{ wordpress_db_name }} state=present
+  become: yes
+
+- name: Create Wordpress db user
+  mysql_user: name={{ wordpress_db_user }} password={{ wordpress_db_pass }} priv={{ wordpress_db_name }}.*:ALL state=present
+  become: yes
+
+- name: Upload wp-config.php
+  template:
+    src: wp-config.php.j2
+    dest: "/tmp/wp-config.php"
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+
+- name: Move wp-config.php
+  shell: cp -f /tmp/wp-config.php "{{ wordpress_install_path }}/wp-config.php"; chown vagrant:users "{{ wordpress_install_path }}/wp-config.php"; rm -f /tmp/wp-config.php;
