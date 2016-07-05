@@ -11,7 +11,7 @@
     - puppet
 
 - name: upgrade the distro
-  apt: upgrade=yes
+  apt: upgrade=dist
   become: yes
 
 - name: install packages
