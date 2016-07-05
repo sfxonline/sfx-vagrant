@@ -42,9 +42,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider 'parallels' do |prl, override|
     prl.name = projectname
-    prl.customize ['set', :id, '--cpus', 2]
-    prl.customize ['set', :id, '--memsize', 2048]
-    prl.customize ['set', :id, '--tools-autoupdate', 'on']
+    prl.update_guest_tools = true
+    prl.cpus = 2
+    prl.memory = 2048
   end
 
   if OS.windows?
