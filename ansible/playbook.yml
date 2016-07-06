@@ -7,4 +7,5 @@
     #- shopware51
     #- shopware52
     #- jtlshop4
-    - wordpress
+    #- wordpress
+    - blank
