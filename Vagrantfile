@@ -47,6 +47,13 @@ Vagrant.configure("2") do |config|
     prl.memory = 2048
   end
 
+  # bento images are not set to UTF-8
+  config.vm.provision :shell, :inline => <<-EOT
+    update-locale LANG=en_US.UTF-8
+    update-locale LC_ALL="en_US.UTF-8
+    update-locale LC_CTYPE="en_US.UTF-8
+    EOT
+
   if OS.windows?
     config.vm.synced_folder "./ansible", "/ansible"
     config.vm.provision :shell do |sh|

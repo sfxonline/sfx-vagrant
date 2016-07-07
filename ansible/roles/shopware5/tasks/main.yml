@@ -34,7 +34,7 @@
   become: yes
 
 - name: Create shopware db
-  mysql_db: name={{ shopware5_db_name }} state=present
+  mysql_db: name={{ shopware5_db_name }} collation=utf8_general_ci state=present
   become: yes
 
 - name: Create shopware db user

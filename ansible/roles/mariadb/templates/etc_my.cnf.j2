@@ -3,7 +3,7 @@
 # You can copy this file to one of:
 # - "/etc/mysql/my.cnf" to set global options,
 # - "~/.my.cnf" to set user-specific options.
-# 
+#
 # One can use all long options that the program supports.
 # Run program with --help to get a list of available options and with
 # --print-defaults to see which it would actually understand and use.
@@ -151,6 +151,9 @@ innodb_flush_method	= O_DIRECT
 # ssl-cert=/etc/mysql/server-cert.pem
 # ssl-key=/etc/mysql/server-key.pem
 
+collation-server = utf8_general_ci
+init-connect='SET NAMES utf8'
+character-set-server = utf8
 
 
 [mysqldump]
@@ -160,6 +163,7 @@ max_allowed_packet	= 16M
 
 [mysql]
 #no-auto-rehash	# faster start of mysql but no tab completition
+default-character-set=utf8
 
 [isamchk]
 key_buffer		= 16M
