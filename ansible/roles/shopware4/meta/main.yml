@@ -1,7 +1,0 @@
----
-dependencies:
-- { role: common }
-- { role: mariadb }
-- { role: apache }
-- { role: phpmyadmin }
-- { role: ioncube }

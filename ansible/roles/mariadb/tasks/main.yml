@@ -1,4 +1,8 @@
 ---
+- name: Install software-properties-common
+  become: yes
+  apt: pkg=software-properties-common state=present
+
 - name: Add MariaDB MySQL apt-key
   become: yes
   apt_key: url="http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search={{ keyserver_fingerprint }}"

@@ -3,15 +3,19 @@
   apt: pkg={{ item }} state=present
   become: yes
   with_items:
-    - libapache2-mod-php5
-    - php5-cli
-    - php5-curl
-    - php5-gd
-    - php5-mysql
-    - php5-sqlite
-    - php5-xdebug
-    - php5-apcu
-    - php5-imagick
+    - apache2
+    - libapache2-mod-php
+    - php-cli
+    - php-curl
+    - php-gd
+    - php-mysql
+    - php-sqlite3
+    - php-xdebug
+    - php-apcu
+    - php-imagick
+    - php-xml
+    - php-zip
+    - php-gettext
 
 - name: Set /var/lock/apache2 owner
   file: path=/var/lock/apache2 recurse=yes state=directory group={{ apache_group }} owner={{ apache_user }}
@@ -50,7 +54,7 @@
   command: a2enmod {{ item }} creates=/etc/apache2/mods-enabled/{{ item }}.load
   with_items:
     - rewrite
-    - php5
+    - php7.0
     - autoindex
     - ssl
   become: yes
@@ -83,26 +87,26 @@
   notify: apache-reload
 
 - name: Configure PHP
-  template: src={{ item.src }} dest=/etc/php5/mods-available/{{ item.dest }} owner=root group=root mode=0644
+  template: src={{ item.src }} dest=/etc/php/7.0/mods-available/{{ item.dest }} owner=root group=root mode=0644
   with_items:
-    - { src: opcache.ini, dest: opcache.ini }
+#    - { src: opcache.ini, dest: opcache.ini }
     - { src: debug.ini, dest: debug.ini }
     - { src: xdebug.ini.j2, dest: xdebug.ini }
   become: yes
 
-- name: Configure PHP Apace module
-  file: src=/etc/php5/mods-available/{{ item.src }} dest=/etc/php5/apache2/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
+- name: Configure PHP Apache module
+  file: src=/etc/php/7.0/mods-available/{{ item.src }} dest=/etc/php/7.0/apache2/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
   with_items:
-    - { src: opcache.ini, dest: 05-opcache.ini }
+#    - { src: opcache.ini, dest: 05-opcache.ini }
     - { src: debug.ini, dest: 99-debug.ini}
     - { src: xdebug.ini, dest: 20-xdebug.ini}
   become: yes
   notify: apache-restart
 
 - name: Configure PHP-CLI
-  file: src=/etc/php5/mods-available/{{ item.src }} dest=/etc/php5/cli/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
+  file: src=/etc/php/7.0/mods-available/{{ item.src }} dest=/etc/php/7.0/cli/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
   with_items:
-    - { src: opcache.ini, dest: 05-opcache.ini }
+#    - { src: opcache.ini, dest: 05-opcache.ini }
     - { src: debug.ini, dest: 99-debug.ini}
     - { src: xdebug.ini, dest: 20-xdebug.ini}
   become: yes

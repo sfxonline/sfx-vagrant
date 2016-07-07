@@ -4,4 +4,4 @@ dependencies:
 - { role: mariadb }
 - { role: apache }
 - { role: phpmyadmin }
-- { role: ioncube }
+#- { role: ioncube }

@@ -2,7 +2,6 @@
 - name: apply common configuration to all nodes
   hosts: all
   roles:
-    #- shopware4
     #- shopware5
     #- shopware51
     #- shopware52

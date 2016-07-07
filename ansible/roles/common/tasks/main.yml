@@ -1,4 +1,8 @@
 ---
+- name: Wait for automatic system updates
+  become: yes
+  shell: 	while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 1; done;
+
 - name: update apt cache
   apt: update_cache=yes cache_valid_time=3600
   become: yes
@@ -34,7 +38,7 @@
     - ant
     - tmux
     - avahi-daemon
-    - openjdk-7-jre-headless
+    - openjdk-9-jre-headless
 
 - name: copy tmux config
   template: src=tmux.conf dest=~/.tmux.conf

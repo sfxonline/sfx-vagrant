@@ -74,6 +74,7 @@
   command: bin/console sw:firstrunwizard:disable
   args:
     chdir: "{{ shopware5_install_path }}"
+    warn: false
 
 - name: generate attributes
   command: bin/console sw:generate:attributes

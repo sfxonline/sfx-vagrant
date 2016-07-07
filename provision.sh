@@ -16,8 +16,15 @@ if [ ! -f $ANSIBLE_HOSTS ]; then
 fi
 
 if [ ! -d $ANSIBLE_DIR ]; then
+	while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
+		sleep 1;
+  done
 	echo "Updating apt cache"
 	sudo apt-get update
+	sudo apt-get upgrade
+	while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
+		sleep 1;
+  done
 	echo "Installing Ansible dependencies and Git"
 	sudo apt-get -q install -y git python-yaml python-paramiko python-jinja2 python-setuptools
 	echo "Cloning Ansible"

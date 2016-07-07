@@ -23,7 +23,7 @@ end
 Vagrant.configure("2") do |config|
   #config.ssh.insert_key = false
   config.ssh.forward_agent = true
-  config.vm.box = "bento/ubuntu-15.10"
+  config.vm.box = "bento/ubuntu-16.04"
   config.vm.network :private_network, ip: "33.33.33.10"
   config.vm.hostname = projectname
 
