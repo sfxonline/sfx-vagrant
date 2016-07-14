@@ -15,6 +15,10 @@ return array (
         'log_errors' => 'On',
         'max_execution_time' => '300'
     ],
+    'mail' => [
+	    'type' => 'file',
+        'path' => $this->DocPath('/var/mails')
+    ],
     'template' => [
         'cacheDir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/templates',
         'compileDir' => '/dev/shm/cache/'.$this->environment.'_'.\Shopware::REVISION.'/templates',

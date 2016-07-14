@@ -9,6 +9,11 @@ return array (
     'password' => '{{ shopware5_db_pass }}',
     'dbname' => '{{ shopware5_db_name }}',
   ),
+  'mail' =>
+   array (
+    'type' => 'file',
+    'path' => $this->DocPath('/log/mails')
+  ),
   'phpSettings' =>
   array(
     'error_reporting' => '{{ shopware5_php_error_reporting }}',

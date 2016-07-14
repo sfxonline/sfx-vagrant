@@ -8,6 +8,10 @@ return array (
         'password' => '{{ shopware5_db_pass }}',
         'dbname' => '{{ shopware5_db_name }}',
     ],
+	'mail' => [
+	    'type' => 'file',
+        'path' => $this->DocPath('/var/mails')
+    ],
     'phpSettings' => [
         'error_reporting' => '{{ shopware5_php_error_reporting }}',
         'error_display' => 'Off',

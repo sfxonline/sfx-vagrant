@@ -7,6 +7,9 @@
   get_url: url=http://releases.s3.shopware.com.s3.amazonaws.com/install_4.3.6_351e326e20363bfe1ba1f3bd821b870dd078d8f4.zip?_ga=1.73760082.153076240.1444134049 dest=/home/vagrant/shopware4.zip
 - unarchive: src=/home/vagrant/shopware4.zip dest={{ shopware4_install_path }} copy=no creates={{ shopware4_install_path }}/shopware.php
 
+- name: Create folder where emails get dumped to.
+  file: path={{ shopware5_install_path }}/log/mails mode=777 owner={{ apache_user }} group={{ apache_user }} state=directory
+
 #- name: Copy create cache script
 #  template:
 #    src: make_cache_dirs.j2
