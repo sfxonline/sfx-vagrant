@@ -70,6 +70,9 @@
 - name: Move config.php
   shell: cp -f /tmp/shopware_config.php "{{ shopware5_install_path }}/config.php"; chown vagrant:users "{{ shopware5_install_path }}/config.php"; rm -f /tmp/shopware_config.php;
 
+- name: Create folder where emails get dumped to.
+  file: path={{ shopware5_install_path }}/var/mails mode=777 owner={{ apache_user }} group={{ apache_user }} state=directory
+
 - name: Disable first run wizard
   command: bin/console sw:firstrunwizard:disable
   args:
