@@ -8,8 +8,8 @@
   become: yes
   apt_repository: repo="{{ item }}" state=present
   with_items:
-  - "deb http://{{ mirror }}/mariadb/repo/{{ version }}/ubuntu {{ mariadb_dist | default(ansible_distribution_release) }} main"
-  - "deb-src http://{{ mirror }}/mariadb/repo/{{ version }}/ubuntu {{ mariadb_dist | default(ansible_distribution_release) }} main"
+  - "deb http://{{ mirror }}/mariadb/mariadb-10.1.16/repo/ubuntu {{ mariadb_dist | default(ansible_distribution_release) }} main"
+  - "deb-src http://{{ mirror }}/mariadb/mariadb-10.1.16/repo/ubuntu {{ mariadb_dist | default(ansible_distribution_release) }} main"
 
 - name: Install MariaDB MySQL server
   apt: pkg={{ item }} state=present
