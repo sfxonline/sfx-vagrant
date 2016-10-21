@@ -5,3 +5,12 @@
 app_host = "33.33.33.10"
 web_root = "/home/vagrant/www"
 mysql_root_password = "root"
+
+[ansible_local]
+controller ansible_connection=local
+
+[ansible_local:vars]
+ansible_ssh_host=33.33.33.10
+app_host = "33.33.33.10"
+web_root = "/home/vagrant/www"
+mysql_root_password = "root"
