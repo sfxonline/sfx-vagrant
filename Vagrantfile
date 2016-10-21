@@ -38,6 +38,7 @@ Vagrant.configure("2") do |config|
 		vb.customize ["modifyvm", :id, "--paravirtprovider", "kvm"]
 		vb.customize ["modifyvm", :id, "--pae", "on"]
     vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
+    vb.customize ["modifyvm", :id, "--vram", 10]
   end
 
   config.vm.provider 'parallels' do |prl, override|
@@ -55,12 +56,10 @@ Vagrant.configure("2") do |config|
     EOT
 
   if OS.windows?
-    config.vm.synced_folder "./ansible", "/ansible"
-    config.vm.provision :shell do |sh|
-      sh.keep_color = true
-      sh.privileged = false
-      sh.path = "provision.sh"
-      sh.args = "./ansible-tmp /ansible/playbook.yml /vagrant/ansible-inventory"
+    config.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "ansible/playbook.yml"
+      ansible.inventory_path = "ansible-inventory"
+      ansible.limit = "ansible_local"
     end
   else
     config.vm.provision "ansible" do |ansible|
