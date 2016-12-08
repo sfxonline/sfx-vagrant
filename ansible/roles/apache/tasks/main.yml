@@ -54,7 +54,7 @@
   command: a2enmod {{ item }} creates=/etc/apache2/mods-enabled/{{ item }}.load
   with_items:
     - rewrite
-    - php7.0
+    - php{{ php_version }}
     - autoindex
     - ssl
   become: yes
@@ -87,7 +87,7 @@
   notify: apache-reload
 
 - name: Configure PHP
-  template: src={{ item.src }} dest=/etc/php/7.0/mods-available/{{ item.dest }} owner=root group=root mode=0644
+  template: src={{ item.src }} dest=/etc/php/{{ php_version }}/mods-available/{{ item.dest }} owner=root group=root mode=0644
   with_items:
 #    - { src: opcache.ini, dest: opcache.ini }
     - { src: debug.ini, dest: debug.ini }
@@ -95,18 +95,18 @@
   become: yes
 
 - name: Configure PHP Apache module
-  file: src=/etc/php/7.0/mods-available/{{ item.src }} dest=/etc/php/7.0/apache2/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
+  file: src=/etc/php/{{ php_version }}/mods-available/{{ item.src }} dest=/etc/php/{{ php_version }}/apache2/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
   with_items:
-#    - { src: opcache.ini, dest: 05-opcache.ini }
+#    - { src: opcache.ini, dest: 10-opcache.ini }
     - { src: debug.ini, dest: 99-debug.ini}
     - { src: xdebug.ini, dest: 20-xdebug.ini}
   become: yes
   notify: apache-restart
 
 - name: Configure PHP-CLI
-  file: src=/etc/php/7.0/mods-available/{{ item.src }} dest=/etc/php/7.0/cli/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
+  file: src=/etc/php/{{ php_version }}/mods-available/{{ item.src }} dest=/etc/php/{{ php_version }}/cli/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
   with_items:
-#    - { src: opcache.ini, dest: 05-opcache.ini }
+#    - { src: opcache.ini, dest: 10-opcache.ini }
     - { src: debug.ini, dest: 99-debug.ini}
     - { src: xdebug.ini, dest: 20-xdebug.ini}
   become: yes
