@@ -29,6 +29,9 @@
 - name: Make Shopware CLI command executable
   file: path={{ shopware5_install_path }}/bin/console mode="ug+x" state=touch
 
+- name: Make cache clearing command executable
+  file: path={{ shopware5_install_path }}/var/cache/clear_cache.sh mode="ug+x" state=touch
+
 - name: Create Cache Folder
   file: path=/dev/shm/cache/ mode=777 owner={{ apache_user }} group={{ apache_user }} state=directory
   become: yes
