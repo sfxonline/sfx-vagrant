@@ -1,5 +1,6 @@
 ---
-shopware5_download_url: http://releases.s3.shopware.com.s3.amazonaws.com/install_5.2.10_81bb8855627da325b797a477602189377b411bcf.zip # 5.2.10
+shopware5_download_url: http://releases.s3.shopware.com.s3.amazonaws.com/install_5.2.12_8c8f67d848ef15aafaac6fed5f0eef062644250f.zip # 5.2.12
+#shopware5_download_url: http://releases.s3.shopware.com.s3.amazonaws.com/install_5.2.10_81bb8855627da325b797a477602189377b411bcf.zip # 5.2.10
 #shopware5_download_url: http://releases.s3.shopware.com.s3.amazonaws.com/install_5.2.9_29c0a379c74f8fd89911f31dd671a0c7d28f18fe.zip # 5.2.9
 #shopware5_download_url: http://releases.s3.shopware.com.s3.amazonaws.com/install_5.2.6_ecdfff604b1fa93a3b50606d378f9e2bf681890f.zip # 5.2.6
 #shopware5_download_url: http://releases.s3.shopware.com.s3.amazonaws.com/install_5.2.5_cc3b6e432af2144fdd4c5e8e1b28cda0398ef7f4.zip # 5.2.5
