@@ -35,6 +35,10 @@
     - tmux
     - avahi-daemon
     - openjdk-7-jre-headless
+    - libjpeg-progs
+    - jpegoptim
+    - pngcrush
+    - optipng
 
 - name: copy tmux config
   template: src=tmux.conf dest=~/.tmux.conf
