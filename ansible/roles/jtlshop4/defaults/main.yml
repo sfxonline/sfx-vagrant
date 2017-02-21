@@ -1,5 +1,7 @@
 ---
-jtlshop4_release_archive: "jtl-shop4.zip"
+jtlshop4_version: "405"
+jtlshop4_download_url: https://api.jtl-software.de/shop/version/get/{{ jtlshop4_version}}
+jtlshop4_release_archive: "jtl-shop4-{{ jtlshop4_version }}.zip"
 jtlshop4_repo_url: ""
 jtlshop4_demo_data_url: ""
 jtlshop4_install_path: "{{ web_root }}/jtlshop4"
