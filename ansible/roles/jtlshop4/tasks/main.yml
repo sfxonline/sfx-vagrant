@@ -1,28 +1,21 @@
 ---
-- file: path="{{ jtlshop4_install_path }}" state=directory
-- name: Unzip JTLShop4
-  unarchive: src={{ jtlshop4_release_archive }} dest={{ jtlshop4_install_path }} copy=yes creates={{ jtlshop4_install_path }}/jtl.php
-- file: path="{{ jtlshop4_install_path }}/includes/config.JTL-Shop.ini.php" state=touch mode=777
-
-- name: Setup Owner
-  file: path={{ jtlshop4_install_path }} owner=vagrant group=users recurse=true
-  become: yes
-
-- name: Setup Permissions
-  file: path={{ item }} recurse=true state=directory mode=777
-  with_items:
-    - "{{ jtlshop4_install_path }}/media"
-    - "{{ jtlshop4_install_path }}/bilder"
-    - "{{ jtlshop4_install_path }}/templates_c"
-    - "{{ jtlshop4_install_path }}/admin/templates_c"
-    - "{{ jtlshop4_install_path }}/update"
-    - "{{ jtlshop4_install_path }}/uploads"
-    - "{{ jtlshop4_install_path }}/jtllogs"
-
-- name: Create shopware db
+- name: Create JTLShop 4 database
   mysql_db: name={{ jtlshop4_db_name }} state=present
   become: yes
 
-- name: Create shopware db user
+- name: Create JTLShop 4 database user
   mysql_user: name={{ jtlshop4_db_user }} password={{ jtlshop4_db_pass }} priv={{ jtlshop4_db_name }}.*:ALL state=present
   become: yes
+
+- name: Create JTLShop {{ jtlshop4_version }} install directory
+  file: path={{ jtlshop4_install_path }} owner=vagrant group=users state=directory
+  become: yes
+
+- name: Download JTLShop CLI
+  get_url: url="http://jtl-url.de/shopcli" dest={{ web_root }}/shopcli
+- file: path={{ web_root }}/shopcli state=touch mode=u+xwr
+
+- name: Install JTLShop {{ jtlshop4_version }}
+  command: "{{ web_root }}/shopcli shop:install --target-dir={{ jtlshop4_install_path }} --target-version={{ jtlshop4_version }} --database-host=localhost --database-name={{ jtlshop4_db_name }} --database-user={{ jtlshop4_db_user }} --database-password={{ jtlshop4_db_pass }} --admin-user=demo --admin-password=demo --install-demo-data"
+  args:
+    creates: "{{ jtlshop4_install_path }}/jtl.php"
