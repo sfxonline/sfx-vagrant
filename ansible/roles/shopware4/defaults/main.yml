@@ -1,4 +1,7 @@
 ---
+shopware4_download_url: "http://releases.s3.shopware.com.s3.amazonaws.com/install_4.3.7_86f0ac9f4633586198cd12da1bd311130ac85de3.zip"
+shopware4_demo_url: http://releases.s3.shopware.com/demo_4.3.0.zip
+#shopware4_demo_url: http://releases.s3.shopware.com/demo_4.2.0.zip
 shopware4_install_path: "{{ web_root }}/shopware4"
 shopware4_db_host: "localhost"
 shopware4_db_port: "3306"

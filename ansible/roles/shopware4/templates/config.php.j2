@@ -3,20 +3,30 @@
 return array (
   'db' =>
   array (
-    'host' => '{{ shopware5_db_host }}',
-    'port' => '{{ shopware5_db_port }}',
-    'username' => '{{ shopware5_db_user }}',
-    'password' => '{{ shopware5_db_pass }}',
-    'dbname' => '{{ shopware5_db_name }}',
+    'host' => '{{ shopware4_db_host }}',
+    'port' => '{{ shopware4_db_port }}',
+    'username' => '{{ shopware4_db_user }}',
+    'password' => '{{ shopware4_db_pass }}',
+    'dbname' => '{{ shopware4_db_name }}',
   ),
   'mail' =>
    array (
     'type' => 'file',
-    'path' => $this->DocPath('/log/mails')
+    'path' => '{{ shopware4_install_path }}/logs/mails'
   ),
   'phpSettings' =>
   array(
-    'error_reporting' => '{{ shopware5_php_error_reporting }}',
-    'error_display' => 'Off'
+    'error_reporting' => '{{ shopware4_php_error_reporting }}',
+    'display_errors' => 'Off',
+    'error_log' => '{{ shopware4_install_path }}/logs/php_error.log',
+
   ),
+  'front' => array(
+    'noErrorHandler' => false,
+    'throwExceptions' => true,
+    'useDefaultControllerAlways' => true,
+    'disableOutputBuffering' => true,
+    'showException' => true,
+    'charset' => 'utf-8'
+  )
 );

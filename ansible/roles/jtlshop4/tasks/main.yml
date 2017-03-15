@@ -16,6 +16,6 @@
 - file: path={{ web_root }}/shopcli state=touch mode=u+xwr
 
 - name: Install JTLShop {{ jtlshop4_version }}
-  command: "{{ web_root }}/shopcli shop:install --target-dir={{ jtlshop4_install_path }} --target-version={{ jtlshop4_version }} --database-host=localhost --database-name={{ jtlshop4_db_name }} --database-user={{ jtlshop4_db_user }} --database-password={{ jtlshop4_db_pass }} --admin-user=demo --admin-password=demo --install-demo-data"
+  command: "{{ web_root }}/shopcli shop:install --shop-url={{ jtlshop4_shop_url }} --target-dir={{ jtlshop4_install_path }} --target-version={{ jtlshop4_version }} --database-host=localhost --database-name={{ jtlshop4_db_name }} --database-user={{ jtlshop4_db_user }} --database-password={{ jtlshop4_db_pass }} --admin-user=demo --admin-password=demo --install-demo-data"
   args:
     creates: "{{ jtlshop4_install_path }}/jtl.php"

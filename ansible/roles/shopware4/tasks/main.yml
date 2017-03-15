@@ -4,11 +4,18 @@
   become: yes
 
 - name: Download Shopware
-  get_url: url=http://releases.s3.shopware.com.s3.amazonaws.com/install_4.3.6_351e326e20363bfe1ba1f3bd821b870dd078d8f4.zip?_ga=1.73760082.153076240.1444134049 dest=/home/vagrant/shopware4.zip
+  get_url: url={{ shopware4_download_url }} dest=/home/vagrant/shopware4.zip
 - unarchive: src=/home/vagrant/shopware4.zip dest={{ shopware4_install_path }} copy=no creates={{ shopware4_install_path }}/shopware.php
 
+- name: Download Shopware Demo Daten
+  get_url: url={{ shopware4_demo_url }} dest=/home/vagrant/demo.zip
+
+- shell: cd {{ shopware4_install_path }}; unzip -q /home/vagrant/demo.zip
+  args:
+    creates: "{{ shopware4_install_path }}/demo.sql"
+
 - name: Create folder where emails get dumped to.
-  file: path={{ shopware5_install_path }}/log/mails mode=777 owner={{ apache_user }} group={{ apache_user }} state=directory
+  file: path={{ shopware4_install_path }}/log/mails mode=777 owner={{ apache_user }} group={{ apache_user }} state=directory
 
 #- name: Copy create cache script
 #  template:
@@ -55,54 +62,32 @@
   mysql_user: name={{ shopware4_db_user }} password={{ shopware4_db_pass }} priv={{ shopware4_db_name }}.*:ALL state=present
   become: yes
 
-#- name: Import Shopware database
-#  mysql_db: name={{ shopware4_db_name }} state=import target={{ shopware4_install_path }}/recovery/install/data/sql/install.sql login_user={{ shopware4_db_user }} login_password={{ shopware4_db_pass }}
+- name: Import Shopware database
+  mysql_db: name={{ shopware4_db_name }} state=import target={{ shopware4_install_path }}/recovery/install/data/sql/sw4_clean.sql login_user={{ shopware4_db_user }} login_password={{ shopware4_db_pass }}
 
-#- name: Import Shopware snippets
-#  mysql_db: name={{ shopware4_db_name }} state=import target={{ shopware4_install_path }}/recovery/install/data/sql/snippets.sql login_user={{ shopware4_db_user }} login_password={{ shopware4_db_pass }}
+- name: Import Shopware snippets
+  mysql_db: name={{ shopware4_db_name }} state=import target={{ shopware4_install_path }}/recovery/install/data/sql/snippets.sql login_user={{ shopware4_db_user }} login_password={{ shopware4_db_pass }}
 
-#- name: Create Shopware Admin user
-#  copy: src=setup_wizard_data.sql dest=/tmp
-#- mysql_db: name={{ shopware4_db_name }} state=import target=/tmp/setup_wizard_data.sql login_user={{ shopware4_db_user }} login_password={{ shopware4_db_pass }}
+- name: Import Shopware en
+  mysql_db: name={{ shopware4_db_name }} state=import target={{ shopware4_install_path }}/recovery/install/data/sql/en.sql login_user={{ shopware4_db_user }} login_password={{ shopware4_db_pass }}
 
-#- name: Create install lock file
-#  shell: echo {{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}{{ ansible_date_time.hour }}{{ ansible_date_time.minute }} > {{ shopware4_install_path }}/recovery/install/data/install.lock
+- name: Import Shopware demo data
+  mysql_db: name={{ shopware4_db_name }} state=import target={{ shopware4_install_path }}/demo.sql login_user={{ shopware4_db_user }} login_password={{ shopware4_db_pass }}
 
-#- name: Upload config.php
-#  template:
-#    src: config.php.j2
-#    dest: "/tmp/shopware_config.php"
-#    owner: vagrant
-#    group: vagrant
-#    mode: 0755
+- name: Create Shopware Admin user
+  copy: src=setup_wizard_data.sql dest=/tmp
+- mysql_db: name={{ shopware4_db_name }} state=import target=/tmp/setup_wizard_data.sql login_user={{ shopware4_db_user }} login_password={{ shopware4_db_pass }}
 
-#- name: Move config.php
-#  shell: cp -f /tmp/shopware_config.php "{{ shopware4_install_path }}/config.php"; chown vagrant:users "{{ shopware4_install_path }}/config.php"; rm -f /tmp/shopware_config.php;
+- name: Create install lock file
+  shell: echo {{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}{{ ansible_date_time.hour }}{{ ansible_date_time.minute }} > {{ shopware4_install_path }}/recovery/install/data/install.lock
 
-#- command: bin/console sw:firstrunwizard:disable
-#  args:
-#    chdir: "{{ shopware4_install_path }}"
+- name: Upload config.php
+  template:
+    src: config.php.j2
+    dest: "/tmp/shopware_config.php"
+    owner: vagrant
+    group: vagrant
+    mode: 0755
 
-#- command: bin/console sw:generate:attributes
-#  args:
-#    chdir: "{{ shopware4_install_path }}"
-
-#- command: bin/console sw:rebuild:category:tree
-#  args:
-#    chdir: "{{ shopware4_install_path }}"
-
-#- command: bin/console orm:generate:proxies
-#  args:
-#    chdir: "{{ shopware4_install_path }}"
-
-#- command: bin/console sw:theme:initialize
-#  args:
-#    chdir: "{{ shopware4_install_path }}"
-
-#- shell: bin/console sw:store:download SwagDemoDataDE > /dev/null
-#  args:
-#    chdir: "{{ shopware4_install_path }}"
-
-#- command: bin/console sw:plugin:install SwagDemoDataDE
-#  args:
-#    chdir: "{{ shopware4_install_path }}"
+- name: Move config.php
+  shell: cp -f /tmp/shopware_config.php "{{ shopware4_install_path }}/config.php"; chown vagrant:users "{{ shopware4_install_path }}/config.php"; rm -f /tmp/shopware_config.php;
