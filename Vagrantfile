@@ -39,6 +39,8 @@ Vagrant.configure("2") do |config|
 		vb.customize ["modifyvm", :id, "--pae", "on"]
     vb.customize ["modifyvm", :id, "--ostype", "Ubuntu_64"]
     vb.customize ["modifyvm", :id, "--vram", 10]
+    # Linked Clones see https://www.vagrantup.com/docs/virtualbox/configuration.html#linked-clones
+    vb.linked_clone = true if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('1.8.0')
   end
 
   config.vm.provider 'parallels' do |prl, override|
