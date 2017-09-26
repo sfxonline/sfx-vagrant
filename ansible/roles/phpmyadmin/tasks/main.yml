@@ -1,4 +1,9 @@
 ---
+- name: Add more recent phpmyadmin
+  become: yes
+  apt_repository:
+    repo: 'ppa:nijel/phpmyadmin'
+
 - name: debconf for phpmyadmin
   debconf: name=phpmyadmin question='phpmyadmin/dbconfig-install' value='true' vtype='boolean'
   become: yes
@@ -22,8 +27,9 @@
 - name: install phpmyadmin
   apt: pkg=phpmyadmin state=present
   become: yes
-  
+
 - file: path=/var/lib/phpmyadmin state=directory group="vagrant" recurse=yes
   become: yes
+
 - file: path=/etc/phpmyadmin state=directory group="vagrant" recurse=yes
   become: yes
