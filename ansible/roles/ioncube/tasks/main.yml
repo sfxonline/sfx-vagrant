@@ -21,20 +21,38 @@
 #  file: path="{{ ioncube_install_path }}/ioncube_loaders.tar.gz" state=absent
 #  become: yes
 
-- name: create php.ini entry
-  shell: echo "zend_extension={{ ioncube_install_path }}/ioncube/ioncube_loader_lin_{{ php_version }}.so" > /etc/php/{{ php_version }}/mods-available/ioncube.ini
+- name: create php.ini entry (PHP 5.6)
+  shell: echo "zend_extension={{ ioncube_install_path }}/ioncube/ioncube_loader_lin_5.6.so" > /etc/php/5.6/mods-available/ioncube.ini
   args:
-    creates: /etc/php/{{ php_version }}/mods-available/ioncube.ini
+    creates: /etc/php/5.6/mods-available/ioncube.ini
   become: yes
 
-- name: Enable IonCube for Apache 2 PHP Module
-  file: path=/etc/php/{{ php_version }}/apache2/conf.d/00-ioncube.ini src=/etc/php/{{ php_version }}/mods-available/ioncube.ini state=link
+#- name: Enable IonCube for Apache 2 PHP Module (PHP 5.6)
+#  file: path=/etc/php/5.6/apache2/conf.d/00-ioncube.ini src=/etc/php/5.6/mods-available/ioncube.ini state=link
+#  become: yes
+
+#- name: Enable IonCube for php-cli (PHP 5.6)
+#  file: path=/etc/php/5.6/cli/conf.d/00-ioncube.ini src=/etc/php/5.6/mods-available/ioncube.ini state=link
+#  become: yes
+
+- name: create php.ini entry (PHP 7.0)
+  shell: echo "zend_extension={{ ioncube_install_path }}/ioncube/ioncube_loader_lin_7.0.so" > /etc/php/7.0/mods-available/ioncube.ini
+  args:
+    creates: /etc/php/7.0/mods-available/ioncube.ini
   become: yes
 
-- name: Enable IonCube for php-cli
-  file: path=/etc/php/{{ php_version }}/cli/conf.d/00-ioncube.ini src=/etc/php/{{ php_version }}/mods-available/ioncube.ini state=link
-  become: yes
+#- name: Enable IonCube for Apache 2 PHP Module (PHP 7.0)
+#  file: path=/etc/php/7.0/apache2/conf.d/00-ioncube.ini src=/etc/php/7.0/mods-available/ioncube.ini state=link
+#  become: yes
+
+#- name: Enable IonCube for php-cli (PHP 7.0)
+#  file: path=/etc/php/7.0/cli/conf.d/00-ioncube.ini src=/etc/php/7.0/mods-available/ioncube.ini state=link
+#  become: yes
 
 - name: Disable php-opcache for Apache 2 PHP Module
-  file: path=/etc/php/{{ php_version }}/apache2/conf.d/10-opcache.ini state=absent
+  shell: phpdismod opcache
+  become: yes
+
+- name: Enable ioncube
+  shell: phpenmod ioncube
   become: yes

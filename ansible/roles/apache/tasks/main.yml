@@ -1,21 +1,37 @@
 ---
+- name: Add ondrej/php repository
+  become: yes
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+
+- name: upgrade the distro
+  apt: upgrade=dist
+  become: yes
+
 - name: Install Apache/PHP
   apt: pkg={{ item }} state=present
   become: yes
   with_items:
     - apache2
-    - libapache2-mod-php
-    - php-cli
-    - php-curl
-    - php-gd
-    - php-mysql
-    - php-sqlite3
-    - php-xdebug
-    - php-apcu
+    - php5.6
+    - php5.6-cli
+    - php5.6-curl
+    - php5.6-gd
+    - php5.6-mysql
+    - php5.6-sqlite3
+    - php5.6-xml
+    - php5.6-zip
+    - php7.0
+    - php7.0-cli
+    - php7.0-curl
+    - php7.0-gd
+    - php7.0-mysql
+    - php7.0-sqlite3
+    - php7.0-xml
+    - php7.0-zip
     - php-imagick
-    - php-xml
-    - php-zip
-    - php-gettext
+    - php-apcu
+    - php-xdebug
 
 - name: Set /var/lock/apache2 owner
   file: path=/var/lock/apache2 recurse=yes state=directory group={{ apache_group }} owner={{ apache_user }}
@@ -86,35 +102,47 @@
   become: yes
   notify: apache-reload
 
-- name: Configure PHP
-  template: src={{ item.src }} dest=/etc/php/{{ php_version }}/mods-available/{{ item.dest }} owner=root group=root mode=0644
+- name: Configure PHP 5.6
+  template: src={{ item.src }} dest=/etc/php/5.6/mods-available/{{ item.dest }} owner=root group=root mode=0644
   with_items:
 #    - { src: opcache.ini, dest: opcache.ini }
     - { src: debug.ini, dest: debug.ini }
     - { src: xdebug.ini.j2, dest: xdebug.ini }
   become: yes
 
-- name: Configure PHP Apache module
-  file: src=/etc/php/{{ php_version }}/mods-available/{{ item.src }} dest=/etc/php/{{ php_version }}/apache2/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
+- name: Configure PHP 7.0
+  template: src={{ item.src }} dest=/etc/php/7.0/mods-available/{{ item.dest }} owner=root group=root mode=0644
   with_items:
-#    - { src: opcache.ini, dest: 10-opcache.ini }
-    - { src: debug.ini, dest: 99-debug.ini}
-    - { src: xdebug.ini, dest: 20-xdebug.ini}
-  become: yes
-  notify: apache-restart
-
-- name: Configure PHP-CLI
-  file: src=/etc/php/{{ php_version }}/mods-available/{{ item.src }} dest=/etc/php/{{ php_version }}/cli/conf.d/{{ item.dest }} owner=root group=root mode=0644 state=link
-  with_items:
-#    - { src: opcache.ini, dest: 10-opcache.ini }
-    - { src: debug.ini, dest: 99-debug.ini}
-    - { src: xdebug.ini, dest: 20-xdebug.ini}
+#    - { src: opcache.ini, dest: opcache.ini }
+    - { src: debug.ini, dest: debug.ini }
+    - { src: xdebug.ini.j2, dest: xdebug.ini }
   become: yes
 
-- name: be sure apache is started and enabled
-  service: name=apache2 state=started enabled=yes
+- name: Configure PHP activate custom php modules
+  command: phpenmod {{ item }}
+  with_items:
+#    - { opcache }
+    - { debug }
+    - { xdebug }
   become: yes
+
+- name: disable PHP 5.6
+  become: yes
+  command: a2dismod php5.6
+
+- name: disable PHP 7.0
+  become: yes
+  command: a2dismod php7.0
+
+- name: enable PHP {{ php_version }}
+  become: yes
+  command: "a2enmod php{{ php_version }}"
 
 - name: Setup Owner
   file: path={{ apache_root }} owner=vagrant group=users recurse=true
+  become: yes
+  notify: apache-restart
+
+- name: be sure apache is started and enabled
+  service: name=apache2 state=started enabled=yes
   become: yes
