@@ -21,11 +21,23 @@
 #  file: path="{{ ioncube_install_path }}/ioncube_loaders.tar.gz" state=absent
 #  become: yes
 
-- name: create php.ini entry (PHP 5.6)
-  shell: echo "zend_extension={{ ioncube_install_path }}/ioncube/ioncube_loader_lin_5.6.so" > /etc/php/5.6/mods-available/ioncube.ini
-  args:
-    creates: /etc/php/5.6/mods-available/ioncube.ini
+- name: Set up ioncube configuration
+  template:
+    src: ioncube.ini.j2
+    dest: "/etc/php/{{ item }}/mods-available/ioncube.ini"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "5.6"
+    - "7.0"
   become: yes
+
+#- name: create php.ini entry (PHP 5.6)
+#  shell: echo "zend_extension={{ ioncube_install_path }}/ioncube/ioncube_loader_lin_5.6.so" > /etc/php/5.6/mods-available/ioncube.ini
+#  args:
+#    creates: /etc/php/5.6/mods-available/ioncube.ini
+#  become: yes
 
 #- name: Enable IonCube for Apache 2 PHP Module (PHP 5.6)
 #  file: path=/etc/php/5.6/apache2/conf.d/00-ioncube.ini src=/etc/php/5.6/mods-available/ioncube.ini state=link
@@ -35,11 +47,11 @@
 #  file: path=/etc/php/5.6/cli/conf.d/00-ioncube.ini src=/etc/php/5.6/mods-available/ioncube.ini state=link
 #  become: yes
 
-- name: create php.ini entry (PHP 7.0)
-  shell: echo "zend_extension={{ ioncube_install_path }}/ioncube/ioncube_loader_lin_7.0.so" > /etc/php/7.0/mods-available/ioncube.ini
-  args:
-    creates: /etc/php/7.0/mods-available/ioncube.ini
-  become: yes
+#- name: create php.ini entry (PHP 7.0)
+#  shell: echo "zend_extension={{ ioncube_install_path }}/ioncube/ioncube_loader_lin_7.0.so" > /etc/php/7.0/mods-available/ioncube.ini
+#  args:
+#    creates: /etc/php/7.0/mods-available/ioncube.ini
+#  become: yes
 
 #- name: Enable IonCube for Apache 2 PHP Module (PHP 7.0)
 #  file: path=/etc/php/7.0/apache2/conf.d/00-ioncube.ini src=/etc/php/7.0/mods-available/ioncube.ini state=link
