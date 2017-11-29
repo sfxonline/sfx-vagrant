@@ -44,23 +44,10 @@
   mysql_user: name={{ shopware5_db_user }} password={{ shopware5_db_pass }} priv={{ shopware5_db_name }}.*:ALL state=present
   become: yes
 
-- name: Import Shopware database
-  mysql_db: name={{ shopware5_db_name }} state=import target={{ shopware5_install_path }}/recovery/install/data/sql/install.sql login_user={{ shopware5_db_user }} login_password={{ shopware5_db_pass }}
-
-- name: Import Shopware snippets
-  mysql_db: name={{ shopware5_db_name }} state=import target={{ shopware5_install_path }}/recovery/install/data/sql/snippets.sql login_user={{ shopware5_db_user }} login_password={{ shopware5_db_pass }}
-
-- name: Create Shopware Admin user
-  template:
-    src: setup_wizard_data.sql.j2
-    dest: "/tmp/setup_wizard_data.sql"
-    owner: vagrant
-    group: vagrant
-    mode: 0755
-- mysql_db: name={{ shopware5_db_name }} state=import target=/tmp/setup_wizard_data.sql login_user={{ shopware5_db_user }} login_password={{ shopware5_db_pass }}
-
-- name: Create install lock file
-  shell: echo {{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}{{ ansible_date_time.hour }}{{ ansible_date_time.minute }} > {{ shopware5_install_path }}/recovery/install/data/install.lock
+- name: Install Shopware
+  shell: php recovery/install/index.php --no-interaction --quiet --no-skip-import --db-host="{{ shopware5_db_host }}" --db-user="{{ shopware5_db_user }}" --db-password="{{ shopware5_db_pass }}" --db-name="{{ shopware5_db_name }}" --shop-locale="de_DE" --shop-host="{{ shopware5_app_host }}" --shop-path="{{ shopware5_app_path }}" --shop-name="sfxonline Testshop" --shop-email="debug@sfxonline.de" --shop-currency="EUR" --admin-username="demo" --admin-password="demo" --admin-email="debug@sfxonline.de" --admin-name="sfxonline" --admin-locale="de_DE"
+  args:
+    chdir: "{{ shopware5_install_path }}"
 
 - name: Upload config.php
   template:
