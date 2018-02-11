@@ -56,3 +56,20 @@
   service: name=ntp state=started enabled=yes
   tags: ntp
   become: yes
+
+- name: Enable git support in bash prompt
+  blockinfile: 
+    path: ~/.bashrc
+    block: |
+      if [ -f /etc/bash_completion.d/git-prompt ]; then
+          case "$TERM" in
+                  xterm-color|*-256color) color_prompt=yes;;
+          esac
+      
+          if [ "$color_prompt" = yes ]; then
+                  PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")'
+          else
+                  PS1=$PS1'$(__git_ps1 "(%s) ")'
+          fi
+          unset color_prompt
+      fi
