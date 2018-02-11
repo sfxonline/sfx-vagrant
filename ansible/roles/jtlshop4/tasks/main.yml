@@ -12,7 +12,7 @@
   become: yes
 
 - name: Download JTLShop CLI
-  get_url: url="http://jtl-url.de/shopcli" dest={{ web_root }}/shopcli
+  get_url: url="http://jtl-url.de/shopcli-latest" dest={{ web_root }}/shopcli
 - file: path={{ web_root }}/shopcli state=touch mode=u+xwr
 
 - name: Install JTLShop {{ jtlshop4_version }}
