@@ -1,4 +1,16 @@
 ---
+- name: install npm
+  apt: pkg={{ item }} state=latest
+  become: yes
+  with_items:
+    - nodejs
+    - npm
+    - nodejs-legacy
+
+- name: install grunt-cli globally
+  command: npm install -g grunt-cli bower
+  become: yes
+
 - name: Create JTLShop 4 database
   mysql_db: name={{ jtlshop4_db_name }} state=present
   become: yes
