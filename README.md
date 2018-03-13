@@ -16,8 +16,8 @@ The provision is done by [Ansible](http://www.ansibleworks.com/docs/) directly o
 
 Clone the repository to your local machine.
 
-    $ git clone https://github.com/sfxonline/vagrant-shopware
-    $ cd shopware-vagrant
+    $ git clone https://github.com/sfxonline/sfx-vagrant
+    $ cd sfx-vagrant
 
 Boot up your vagrant virtual machine:
 
@@ -46,7 +46,15 @@ To reprovision your machine:
 
     $ vagrant provision
 
+## Switching PHP version
 
+The box comes with PHP 5.6 and 7.0 preinstalled.
+By default PHP 7.0 is activated. To switch back to version 5.6 run:
+```
+sudo a2dismod php7.0
+sudo a2enmod php5.6
+sudo service apache2 restart
+```
 ## Installation under arch linux
 
     sudo pacman -S virtualbox ansible net-tools nfs-utils
