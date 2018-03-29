@@ -6,6 +6,10 @@
     - nodejs
     - npm
     - nodejs-legacy
+    - libtext-trim-perl
+    - libjson-perl
+    - libconfig-inifiles-perl
+    - composer
 
 - name: install grunt-cli globally
   command: npm install -g grunt-cli bower
