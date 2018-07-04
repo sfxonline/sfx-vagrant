@@ -1,5 +1,6 @@
 .vagrant
 .vscode
+.history
 www/*
 */files/*
 ansible/playbook.retry
